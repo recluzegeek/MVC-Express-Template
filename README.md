@@ -1,4 +1,4 @@
-Express MVC Starter
+# Express MVC Starter
 
 - First need to define mongoose schema for habbits.
 - Define controller for saving them
@@ -7,7 +7,7 @@ Express MVC Starter
 ==================================
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/oguzhanoya/express-mvc-boilerplate.svg?branch=master)](https://travis-ci.org/oguzhanoya/express-mvc-boilerplate)
 
-> A simple mvc boilerplate for express.js (gulp + expressjs + nodemon + browser-sync)
+> An updated yet simple mvc boilerplate for express.js (gulp + expressjs + nodemon + browser-sync)
 
 ## Related modules
 
