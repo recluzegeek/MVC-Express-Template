@@ -1,9 +1,5 @@
 # Express MVC Starter
 
-- First need to define mongoose schema for habbits.
-- Define controller for saving them
-- Routes the web requests to the end points setup in the controller
-
 ==================================
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/oguzhanoya/express-mvc-boilerplate.svg?branch=master)](https://travis-ci.org/oguzhanoya/express-mvc-boilerplate)
 

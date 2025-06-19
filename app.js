@@ -25,7 +25,8 @@ import db from './config/db.js';
 app.set('views', path.join(__dirname(), 'app/views'));
 app.set('view engine', 'pug');
 
-app.use(logger(config.isProd ? 'combined' : 'dev'));
+// app.use(logger(config.isProd ? 'combined' : 'dev'));
+app.use(logger(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());

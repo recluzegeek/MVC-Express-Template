@@ -1,4 +1,4 @@
-import Habbit from '../../models/habbit.js';
+import Habbit from '../../models/habbitModel.js';
 
 export function getAll(req, res, next) {
   // fetch all habbits

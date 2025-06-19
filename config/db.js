@@ -1,31 +1,40 @@
-import mongoose from 'mongoose';
+import Sequelize from 'sequelize';
 import chalk from 'chalk';
 import Debug from 'debug';
-const debug = Debug("myapp:app")
-import config from './config.js';
+import dotenv from 'dotenv';
+const debug = Debug("myapp:app");
 
-// Use native ES6 promises
-mongoose.Promise = global.Promise;
-mongoose.connect(config.database.url);
+dotenv.config();
 
-const db = mongoose.connection;
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USERNAME,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    storage: ":memory:"
+  }
+);
 
-db.on('error', (err) => {
-  debug(`MongoDB connection error ${config.database.url} \nPlease make sure MongoDB is running.`);
-  debug(chalk.red(`error: Uncaught Error ${err}`));
-  process.exit();
+(async () => {
+  try {
+    await sequelize.authenticate()
+    debug(chalk.green('Connection has been established successfully!'));
+  } catch (error) {
+    debug(chalk.red('ERORR: Unable to connect to datbase', err));
+    process.exit(1);
+  }
+})()
+
+
+process.on('SIGINT', async () => {
+  try {
+    await sequelize.close()
+    debug(chalk.yellow('Sequelize connection closed due to app termination.'))
+  } catch (error) {
+    debug(chalk.red('Error closing Sequelize connection: '), err);
+  }
 });
 
-db.once('open', () => {
-  debug('MongoDB connection with database succeeded.');
-  console.log('MongoDB connection with database succeeded.');
-});
-
-process.on('SIGINT', () => {
-  db.close(() => {
-    debug('MongoDB connection disconnected through app termination.');
-    process.exit();
-  });
-});
-
-export default db;
+export default sequelize;
