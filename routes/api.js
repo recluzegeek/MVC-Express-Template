@@ -1,10 +1,12 @@
 /* eslint-disable global-require, func-names */
 
-module.exports = function (app) {
+import habbitsController from '../app/controllers/Api/habbits.js';
+
+export default function (app) {
   // home
   // app.use('/api', require('../app/controllers/Api/home'));
 
-  const habbitsController = require('../app/controllers/Api/habbits')
+  // const habbitsController = require('../app/controllers/Api/habbits')
 
   app.get('/habbits', habbitsController.getAll);
   app.post('/habbit/create', habbitsController.create);

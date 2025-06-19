@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose, { model } from 'mongoose';
 
 const { Schema } = mongoose;
 
@@ -22,7 +22,7 @@ const HabbitSchema = new Schema({
 }, {timestamps: true});
 
 // create the model
-const HabbitModel = mongoose.model('Habbit', HabbitSchema);
+const HabbitModel = model('Habbit', HabbitSchema);
 
 // export the model
-module.exports = HabbitModel;
+export default HabbitModel;

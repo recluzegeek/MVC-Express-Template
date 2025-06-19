@@ -1,10 +1,9 @@
 /* eslint-disable global-require, func-names */
+import homeRouter from '../app/controllers/home.js';
 
-module.exports = function (app) {
+export default function (app) {
   // home
-  app.use('/', require('../app/controllers/home'));
+  // app.use('/', require('../app/controllers/home').default);
+  app.use('/', homeRouter);
 
-  // return all habbits
-  // create new habbit
-  // update the status of the habbit
 };

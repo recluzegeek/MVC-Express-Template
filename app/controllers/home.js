@@ -1,14 +1,14 @@
-const express = require('express');
+import { Router } from 'express';
 
-const router = express.Router();
+const router = Router();
 
-const Todo = require('../models/todo');
-const Utils = require('../helpers/utils');
+import Todo from '../models/todo.js';
+import { randomString } from '../helpers/utils.js';
 
 // get home page
 router.get('/', (req, res, next) => {
   // generate a new name
-  const name = Utils.randomString(5);
+  const name = randomString(5);
 
   // new todo model
   const newTodo = new Todo({ name, done: false });
@@ -20,4 +20,4 @@ router.get('/', (req, res, next) => {
   res.render('index', { title: 'Express' });
 });
 
-module.exports = router;
+export default router;

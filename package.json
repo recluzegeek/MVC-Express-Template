@@ -4,7 +4,7 @@
   "description": "A simple yet updated mvc boilerplate for express.js",
   "private": true,
   "type": "module",
-  "main": "app.js",
+  "exports": "./app.js",
   "directories": {
     "test": "test"
   },

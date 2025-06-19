@@ -30,4 +30,4 @@ const config = {
 config[env].isDev = env === 'development';
 config[env].isProd = env === 'production';
 
-module.exports = config[env];
+export default config[env];

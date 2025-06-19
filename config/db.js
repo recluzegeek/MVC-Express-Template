@@ -1,15 +1,23 @@
-const Mongoose = require('mongoose');
-const debug = require('debug')('myapp:db');
-const config = require('./config');
+import mongoose from 'mongoose';
+import chalk from 'chalk';
+import Debug from 'debug';
+const debug = Debug("myapp:app")
+import config from './config.js';
+
+// const Mongoose = require('mongoose');
+// const chalk = require('chalk')
+// const debug = require('debug')('myapp:db');
+// const config = require('./config').default;
 
 // Use native ES6 promises
-Mongoose.Promise = global.Promise;
-Mongoose.connect(config.database.url, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.Promise = global.Promise;
+mongoose.connect(config.database.url);
 
-const db = Mongoose.connection;
+const db = mongoose.connection;
 
-db.on('error', () => {
+db.on('error', (err) => {
   debug(`MongoDB connection error ${config.database.url} \nPlease make sure MongoDB is running.`);
+  debug(chalk.red(`error: Uncaught Error ${err}`));
   process.exit();
 });
 
@@ -25,4 +33,4 @@ process.on('SIGINT', () => {
   });
 });
 
-module.exports = db;
+export default db;
