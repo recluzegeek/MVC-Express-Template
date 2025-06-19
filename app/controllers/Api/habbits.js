@@ -1,8 +1,3 @@
-// import { Router } from 'express';
-
-// const router = Router();
-
-// import { find, create as _create, findByIdAndUpdate } from '../../models/habbit.js';
 import Habbit from '../../models/habbit.js';
 
 export function getAll(req, res, next) {

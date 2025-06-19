@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-// import { fileURLToPath } from 'url';
 import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
@@ -10,29 +9,16 @@ import dotenv from 'dotenv'
 dotenv.config()
 console.log(process.env);
 
-
-// const express = require('express');
-// const path = require('path');
-// const favicon = require('serve-favicon');
-// const logger = require('morgan');
-// const cookieParser = require('cookie-parser');
-// const bodyParser = require('body-parser');
-
-// require('dotenv').config();
-
-
 const app = express();
-// const debug = require('debug')('myapp:app');
+
 import Debug from 'debug';
 const debug = Debug("myapp:app")
 
 
 // config
-// const config = require('./config/config').default;
 import config from './config/config.js';
 
 // database config
-// const db = require('./config/db');
 import db from './config/db.js';
 
 // view engine setup
@@ -47,8 +33,6 @@ app.use(favicon(path.join(__dirname(), 'public', 'favicon/favicon.ico')));
 app.use(express.static(path.join(__dirname(), 'public')));
 
 // bootstrap routes
-// require('./routes/web')(app);
-// require('./routes/api')(app);
 import webRoute from './routes/web.js'
 import apiRoute from './routes/api.js'
 webRoute(app)
@@ -80,11 +64,6 @@ db.on('connected', () => {
 });
 
 function __dirname(){
-  // const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
-  // return path.dirname(__filename); // return the name of the directory
-
-  // const __filename = import.meta.filename;
-  // const __dirname = import.meta.dirname;
   return import.meta.dirname;
 }
 

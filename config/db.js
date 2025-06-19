@@ -4,11 +4,6 @@ import Debug from 'debug';
 const debug = Debug("myapp:app")
 import config from './config.js';
 
-// const Mongoose = require('mongoose');
-// const chalk = require('chalk')
-// const debug = require('debug')('myapp:db');
-// const config = require('./config').default;
-
 // Use native ES6 promises
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database.url);
