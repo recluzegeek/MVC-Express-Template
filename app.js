@@ -7,8 +7,6 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv'
 
 dotenv.config()
-console.log(process.env);
-
 const app = express();
 
 import Debug from 'debug';
@@ -56,7 +54,7 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-db.on('connected', () => {
+db.afterConnect(() => {
   app.listen(config.server.port, config.server.hostname, () => {
     console.log(`www.${config.server.hostname  }:${  config.server.port}`);
     debug(`App listening on ${config.server.hostname} port: ${config.server.port}`);

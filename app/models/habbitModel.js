@@ -1,28 +1,33 @@
-import mongoose, { model } from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../../config/db.js';
 
-const { Schema } = mongoose;
-
-// create a schema
-const HabbitSchema = new Schema({
-  name:{
-    type: String, 
-    required: true
+const Habbit = sequelize.define('Habbit', {
+  // Model attributes
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  name: {
+    type: DataTypes.STRING(200),
+    allowNull: false
   },
   status: {
-    type: String,
-    enum: ['Done', 'Pending'],
-    required: true
+    type: DataTypes.ENUM(['Done', 'Pending', 'In Progress']),
+    default: 'Pending',
+    allowNull: false
   },
   frequency: {
-    type: String,
-    enum: ['Daily', 'Bi-Weekly', 'Monthly'],
-    default: 'Daily',
-    required: true
+    type: DataTypes.ENUM(['Daily', 'Weekly', 'BiWeekly' ,'Monthly'])
   }
-}, {timestamps: true});
+}, {
+  tableName: 'habbits',
+  timestamps: true // Adds createdAt and updatedAt columns
+});
 
-// create the model
-const HabbitModel = model('Habbit', HabbitSchema);
+// Method to get habbit details
+Habbit.prototype.getDetails = function() {
+  return `${this.title} by ${this.author} - ${this.price}`;
+};
 
-// export the model
-export default HabbitModel;
+export default Habbit;
