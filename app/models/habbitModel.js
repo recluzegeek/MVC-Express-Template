@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../../config/db.js';
+import { sequelize } from '../../config/db.js';
 
 const Habbit = sequelize.define('Habbit', {
   // Model attributes
@@ -18,7 +18,7 @@ const Habbit = sequelize.define('Habbit', {
     allowNull: false
   },
   frequency: {
-    type: DataTypes.ENUM(['Daily', 'Weekly', 'BiWeekly' ,'Monthly'])
+    type: DataTypes.ENUM(['Daily', 'Weekly', 'BiWeekly', 'Monthly'])
   }
 }, {
   tableName: 'habbits',
@@ -26,7 +26,7 @@ const Habbit = sequelize.define('Habbit', {
 });
 
 // Method to get habbit details
-Habbit.prototype.getDetails = function() {
+Habbit.prototype.getDetails = function () {
   return `${this.title} by ${this.author} - ${this.price}`;
 };
 

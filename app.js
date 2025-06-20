@@ -4,6 +4,7 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import chalk from 'chalk';
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -17,7 +18,7 @@ const debug = Debug("myapp:app")
 import config from './config/config.js';
 
 // database config
-import db from './config/db.js';
+import { connectToDB } from './config/db.js';
 
 // view engine setup
 app.set('views', path.join(__dirname(), 'app/views'));
@@ -26,7 +27,7 @@ app.set('view engine', 'pug');
 // app.use(logger(config.isProd ? 'combined' : 'dev'));
 app.use(logger(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(favicon(path.join(__dirname(), 'public', 'favicon/favicon.ico')));
 app.use(express.static(path.join(__dirname(), 'public')));
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname(), 'public')));
 // bootstrap routes
 import webRoute from './routes/web.js'
 import apiRoute from './routes/api.js'
+
 webRoute(app)
 apiRoute(app)
 
@@ -54,15 +56,18 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-db.afterConnect(() => {
+try {
+  await connectToDB();
   app.listen(config.server.port, config.server.hostname, () => {
-    console.log(`www.${config.server.hostname  }:${  config.server.port}`);
+    console.log(`www.${config.server.hostname}:${config.server.port}`);
     debug(`App listening on ${config.server.hostname} port: ${config.server.port}`);
     app.emit('appStarted');
   });
-});
+} catch (error) {
+  debug(chalk.red(`Error Occured while running the app: ${error}`))
+}
 
-function __dirname(){
+function __dirname() {
   return import.meta.dirname;
 }
 

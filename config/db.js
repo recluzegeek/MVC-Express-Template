@@ -13,22 +13,22 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
-    storage: ":memory:",
+    storage: "./habbits-db",
     logging: msg => debug(chalk.yellow(msg))
   }
 );
 
-(async () => {
+const connectToDB = async () => {
   try {
     await sequelize.authenticate()
     debug(chalk.green('Connection has been established successfully!'));
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: false });
     debug(chalk.green('Database table created succesfully!'));
   } catch (error) {
     debug(chalk.red('ERORR: Unable to connect to datbase', error));
     process.exit(1);
   }
-})()
+}
 
 
 process.on('SIGINT', async () => {
@@ -40,4 +40,4 @@ process.on('SIGINT', async () => {
   }
 });
 
-export default sequelize;
+export { sequelize, connectToDB };

@@ -1,15 +1,19 @@
+import Debug from 'debug';
 import Habbit from '../../models/habbitModel.js';
+import chalk from 'chalk';
 
-export function getAll(req, res, next) {
+const debug = Debug("myapp:habbitController")
+
+function getAll(req, res, next) {
   // fetch all habbits
-  Habbit.find()
-    .then(habbits => res.json(habbits))
-    .catch((err) => {
-      res.json(err.message);
-      console.log(err);
-    });
+  debug(chalk.yellow(`Received new Request: ${req.url}`))
+  Habbit.findAll()
+    .then((habbits) => {
+      res.json(habbits)
+    }).catch(error => debug(chalk.red(`Data fetching unsuccesfull: ${error}`)))
 }
-export function create(req, res) {
+
+function create(req, res) {
   // create new habbit
   console.log(req.body);
   const { name, frequency, status } = req.body;
@@ -20,12 +24,16 @@ export function create(req, res) {
   }).then(() => res.status(200).send('Habbit saved successfuly!'))
     .catch(err => res.status(400).json(err.message));
 }
-export function update(req, res) {
+
+function update(req, res) {
   // update habbit status
-  const { id, status } = req.body;
-  Habbit.findByIdAndUpdate(id, { status: status }, { runValidators: true })
+  const { id } = req.params;
+  const { status } = req.body;
+  debug(chalk.yellow(`Received updation request bearing ID# : ${id} and new status: ${status}`))
+
+  Habbit.update({ status: status }, { where: { id: id } })
     .then(() => res.json('Habbit status updated!'))
     .catch(err => res.status(400).json(err.message));
 }
 
-export default {getAll, create, update};
+export default { getAll, create, update };
