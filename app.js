@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import favicon from 'serve-favicon';
-import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import chalk from 'chalk';
@@ -20,12 +19,15 @@ import config from './config/config.js';
 // database config
 import { connectToDB } from './config/db.js';
 
+//logger config
+import morganMiddleware from './app/helpers/logger.js'
+app.use(morganMiddleware);
+
 // view engine setup
 app.set('views', path.join(__dirname(), 'app/views'));
 app.set('view engine', 'pug');
 
-// app.use(logger(config.isProd ? 'combined' : 'dev'));
-app.use(logger(':method :url :status :res[content-length] - :response-time ms'))
+// app.use(logger(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -35,6 +37,7 @@ app.use(express.static(path.join(__dirname(), 'public')));
 // bootstrap routes
 import webRoute from './routes/web.js'
 import apiRoute from './routes/api.js'
+import { log } from 'console';
 
 webRoute(app)
 apiRoute(app)

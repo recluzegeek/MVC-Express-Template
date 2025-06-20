@@ -3,7 +3,7 @@ import Habbit from '../../models/habbitModel.js';
 import chalk from 'chalk';
 
 const debug = Debug("myapp:habbitController")
-
+// TODO: try/catch --- exception handling
 function getAll(req, res, next) {
   // fetch all habbits
   debug(chalk.yellow(`Received new Request: ${req.url}`))
