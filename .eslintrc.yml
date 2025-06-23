@@ -27,5 +27,8 @@ rules:
   eol-last:
     - error
     - always
+  import/extension:
+    - ignore
+    - always
   import/no-unresolved: 0
   no-console: 0
