@@ -31,6 +31,7 @@
     "gulp-nodemon": "^2.5.0",
     "gulp-plumber": "^1.2.1",
     "gulp-stylus": "^3.0.1",
+    "joi": "^17.13.3",
     "mocha": "^11.7.0",
     "morgan": "^1.10.0",
     "pug": "^3.0.3",
