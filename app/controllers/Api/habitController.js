@@ -1,54 +1,49 @@
 import logger from "../../utils/logger.js";
 import Habit from "../../models/habitModel.js";
+import { AppError } from "../../utils/errorHandler.js";
 
-// const debug = Debug("myapp:habitController");
-// TODO: try/catch --- exception handling
 function getAll(req, res, next) {
   // fetch all habits
-  logger.http(`Received new getAll() Request: ${req.url}`);
+
   Habit.findAll()
     .then((habits) => {
-      res.json(habits);
+      res.status(200).json(habits);
     })
-    .catch((error) => logger.error(`Data fetching unsuccesfull: ${error}`));
+    .catch((err) => next(new AppError(err.message || "Data fetching unsuccessfull", 500)));
 }
 
-function create(req, res) {
+function create(req, res, next) {
   // create new habit
-  console.log(req.body);
+  logger.verbose(`Received request for habit creation: ${JSON.stringify(req.body)}`);
   const { name, description, category, frequency, status } = req.body;
-  Habit.create({
-    name,
-    description,
-    category,
-    status,
-    frequency,
-  })
+  Habit.create({ name, description, category, status, frequency })
     .then(() => res.status(200).send("Habit saved successfuly!"))
-    .catch((err) => res.status(400).json(err.message));
+    .catch((err) => next(new AppError(err.message || "Failed to create Habit.", 400)));
 }
 
-function update(req, res) {
+function update(req, res, next) {
   const { id } = req.params;
   const updateData = req.body;
 
-  logger.verbose(`Received update request for ID# : ${id} with data: ${JSON.stringify(updateData)}`);
+  logger.verbose(
+    `Received update request for ID# : ${id} with data: ${JSON.stringify(updateData)}`
+  );
 
   // Remove fields that are undefined to avoid overwriting with undefined
   Object.keys(updateData).forEach((key) => updateData[key] === undefined && delete updateData[key]);
 
   if (Object.keys(updateData).length === 0) {
-    return res.status(400).json({ error: "No valid fields provided for update" });
+    return next(new AppError(err.message || "No valid fields provided for update", 400));
   }
 
   Habit.update(updateData, { where: { id } })
     .then(([affectedRows]) => {
       if (affectedRows === 0) {
-        return res.status(404).json({ error: "Habit not found" });
+        return next(new AppError("Habbit not found.", 404));
       }
       res.json("Habit updated successfully!");
     })
-    .catch((err) => res.status(400).json({ error: err.message }));
+    .catch((err) => next(new AppError(err.message || "Failed to update record", 500)));
 }
 
 export default { getAll, create, update };

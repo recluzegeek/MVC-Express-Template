@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get("/habits", habitsController.getAll);
 router.post("/habit/create", validationMiddleware(createHabitSchema), habitsController.create);
-router.put("/habit/update/:id", validationMiddleware(updateHabitSchema), habitsController.update); // use id as req.params
+router.put("/habit/update/:id", validationMiddleware(updateHabitSchema), habitsController.update);
 
 export default function (app) {
   // Routes prefix

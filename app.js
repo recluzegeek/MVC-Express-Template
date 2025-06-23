@@ -1,46 +1,47 @@
-import express from 'express';
-import path from 'path';
-import favicon from 'serve-favicon';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import dotenv from 'dotenv'
+import express from "express";
+import path from "path";
+import favicon from "serve-favicon";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 const app = express();
 
-import logger from './app/utils/logger.js';
-
 // config
-import config from './config/config.js';
+import config from "./config/config.js";
 
 // database config
-import { connectToDB } from './config/db.js';
+import { connectToDB } from "./config/db.js";
 
 //logger config
-// import morganMiddleware from './app/utils/logger.js'
-// app.use(morganMiddleware);
+import logger from "./app/utils/logger.js";
+import { errorMiddleware } from "./app/utils/errorHandler.js";
+// TODO: http logging for request either via morgan or manual
 
 // view engine setup
-app.set('views', path.join(__dirname(), 'app/views'));
-app.set('view engine', 'pug');
+app.set("views", path.join(__dirname(), "app/views"));
+app.set("view engine", "pug");
 
 // app.use(logger(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(favicon(path.join(__dirname(), 'public', 'favicon/favicon.ico')));
-app.use(express.static(path.join(__dirname(), 'public')));
+app.use(favicon(path.join(__dirname(), "public", "favicon/favicon.ico")));
+app.use(express.static(path.join(__dirname(), "public")));
 
 // bootstrap routes
-import webRoute from './routes/web.js'
-import apiRoute from './routes/api.js'
+import webRoute from "./routes/web.js";
+import apiRoute from "./routes/api.js";
 
-webRoute(app)
-apiRoute(app)
+webRoute(app);
+apiRoute(app);
+
+app.use(errorMiddleware);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  const err = new Error('Not Found');
+  const err = new Error("Not Found");
   err.status = 404;
   next(err);
 });
@@ -52,7 +53,7 @@ app.use((err, req, res, next) => {
   res.locals.error = config.isDev ? err : {}; // eslint-disable-line no-param-reassign
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
 try {
@@ -60,7 +61,7 @@ try {
   app.listen(config.server.port, config.server.hostname, () => {
     logger.info(`Server running on: www.${config.server.hostname}:${config.server.port}`);
     logger.info(`App listening on ${config.server.hostname} port: ${config.server.port}`);
-    app.emit('appStarted');
+    app.emit("appStarted");
   });
 } catch (error) {
   logger.error(`Error Occured while running the app: ${error}`);

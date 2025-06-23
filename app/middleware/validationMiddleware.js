@@ -2,13 +2,16 @@
 // the controller. If it passes, continue to controller,
 // else respond back with error message's
 
+import { AppError } from "../utils/errorHandler.js";
+
 const validationMiddleware = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body || {}, { abortEarly: false, stripUnknown: true });
     if (error) {
       // Send all validation errors back
-      const errors = error.details.map(detail => detail.message);
-      return res.status(400).json({ errors });
+      const errors = error.details.map((detail) => detail.message);
+      // console.log(JSON.stringify(errors));
+      return next(new AppError(errors, 400));
     }
     next(); // validation passed, continue to controller
   };
