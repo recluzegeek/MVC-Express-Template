@@ -1,13 +1,6 @@
 import Joi from "joi";
 
-const categoryEnum = [
-  "Health",
-  "Tech",
-  "Social",
-  "Knowledge",
-  "Hobby",
-  "House Chores",
-];
+const categoryEnum = ["Health", "Tech", "Social", "Knowledge", "Hobby", "House Chores"];
 const frequencyEnum = ["Daily", "Weekly", "Monthly", "BiWeekly"];
 const statusEnum = ["Pending", "In Progress", "Done"];
 
@@ -53,10 +46,14 @@ const baseHabitSchema = Joi.object({
     }),
 });
 
-// keep the same base habit schema, yet modify required() => optional() 
-const updateHabitSchema = baseHabitSchema.fork(
-  Object.keys(baseHabitSchema.describe().keys),
-  (schema) => schema.optional()
-).min(1);
+// keep the same base habit schema, yet modify required() => optional()
+const updateHabitSchema = baseHabitSchema
+  .fork(Object.keys(baseHabitSchema.describe().keys), (schema) => schema.optional())
+  .min(1)
+  .message(
+    `Must have at least one of the following keys: ${
+      Object.keys(baseHabitSchema.describe().keys).join(', ')
+    }`
+  );
 
 export { baseHabitSchema as createHabitSchema, updateHabitSchema };

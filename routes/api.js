@@ -1,27 +1,16 @@
 /* eslint-disable global-require, func-names */
 
 import express from "express";
-import habbitsController from "../app/controllers/Api/habbitController.js";
+import habitsController from "../app/controllers/Api/habitController.js";
 
-import {
-  createHabitSchema,
-  updateHabitSchema,
-} from "../app/requests/habbitRequest.js";
+import { createHabitSchema, updateHabitSchema } from "../app/requests/habitRequest.js";
 import validationMiddleware from "../app/middleware/validationMiddleware.js";
 
 const router = express.Router();
 
-router.get("/habbits", habbitsController.getAll);
-router.post(
-  "/habbit/create",
-  validationMiddleware(createHabitSchema),
-  habbitsController.create
-);
-router.put(
-  "/habbit/update/:id",
-  validationMiddleware(updateHabitSchema),
-  habbitsController.update
-); // use id as req.params
+router.get("/habits", habitsController.getAll);
+router.post("/habit/create", validationMiddleware(createHabitSchema), habitsController.create);
+router.put("/habit/update/:id", validationMiddleware(updateHabitSchema), habitsController.update); // use id as req.params
 
 export default function (app) {
   // Routes prefix

@@ -1,17 +1,16 @@
-import Debug from "debug";
-import chalk from "chalk";
+import logger from "../../utils/logger.js";
 import Habit from "../../models/habitModel.js";
 
-const debug = Debug("myapp:habitController");
+// const debug = Debug("myapp:habitController");
 // TODO: try/catch --- exception handling
 function getAll(req, res, next) {
   // fetch all habits
-  debug(chalk.yellow(`Received new Request: ${req.url}`));
+  logger.http(`Received new getAll() Request: ${req.url}`);
   Habit.findAll()
     .then((habits) => {
       res.json(habits);
     })
-    .catch((error) => debug(chalk.red(`Data fetching unsuccesfull: ${error}`)));
+    .catch((error) => logger.error(`Data fetching unsuccesfull: ${error}`));
 }
 
 function create(req, res) {
@@ -33,7 +32,7 @@ function update(req, res) {
   const { id } = req.params;
   const updateData = req.body;
 
-  debug(chalk.yellow(`Received update request for ID# : ${id} with data: ${JSON.stringify(updateData)}`));
+  logger.verbose(`Received update request for ID# : ${id} with data: ${JSON.stringify(updateData)}`);
 
   // Remove fields that are undefined to avoid overwriting with undefined
   Object.keys(updateData).forEach((key) => updateData[key] === undefined && delete updateData[key]);

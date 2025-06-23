@@ -3,15 +3,12 @@ import path from 'path';
 import favicon from 'serve-favicon';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import chalk from 'chalk';
 import dotenv from 'dotenv'
 
 dotenv.config()
 const app = express();
 
-import Debug from 'debug';
-const debug = Debug("myapp:app")
-
+import logger from './app/utils/logger.js';
 
 // config
 import config from './config/config.js';
@@ -20,8 +17,8 @@ import config from './config/config.js';
 import { connectToDB } from './config/db.js';
 
 //logger config
-import morganMiddleware from './app/helpers/logger.js'
-app.use(morganMiddleware);
+// import morganMiddleware from './app/utils/logger.js'
+// app.use(morganMiddleware);
 
 // view engine setup
 app.set('views', path.join(__dirname(), 'app/views'));
@@ -37,7 +34,6 @@ app.use(express.static(path.join(__dirname(), 'public')));
 // bootstrap routes
 import webRoute from './routes/web.js'
 import apiRoute from './routes/api.js'
-import { log } from 'console';
 
 webRoute(app)
 apiRoute(app)
@@ -62,12 +58,12 @@ app.use((err, req, res, next) => {
 try {
   await connectToDB();
   app.listen(config.server.port, config.server.hostname, () => {
-    console.log(`www.${config.server.hostname}:${config.server.port}`);
-    debug(`App listening on ${config.server.hostname} port: ${config.server.port}`);
+    logger.info(`Server running on: www.${config.server.hostname}:${config.server.port}`);
+    logger.info(`App listening on ${config.server.hostname} port: ${config.server.port}`);
     app.emit('appStarted');
   });
 } catch (error) {
-  debug(chalk.red(`Error Occured while running the app: ${error}`))
+  logger.error(`Error Occured while running the app: ${error}`);
 }
 
 function __dirname() {
