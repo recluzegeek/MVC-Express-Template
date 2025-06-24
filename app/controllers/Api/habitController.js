@@ -6,9 +6,7 @@ function getAll(req, res, next) {
   // fetch all habits
 
   Habit.findAll()
-    .then((habits) => {
-      res.status(200).json(habits);
-    })
+    .then((habits) => res.status(200).json(habits))
     .catch((err) => next(new AppError(err.message || "Data fetching unsuccessfull", 500)));
 }
 
@@ -39,7 +37,7 @@ function update(req, res, next) {
   Habit.update(updateData, { where: { id } })
     .then(([affectedRows]) => {
       if (affectedRows === 0) {
-        return next(new AppError("Habbit not found.", 404));
+        return next(new AppError("Habit not found.", 404));
       }
       res.json("Habit updated successfully!");
     })

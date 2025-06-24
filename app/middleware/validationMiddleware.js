@@ -4,15 +4,13 @@
 
 import { ValidationError } from "../utils/errorHandler.js";
 
-//TODO: ensure the middleware logs the errors
-
 const validationMiddleware = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body || {}, { abortEarly: false, stripUnknown: true });
     if (error) {
       // Send all validation errors back
       const errors = error.details.map((detail) => detail.message);
-      // console.log(JSON.stringify(errors));
+      // console.log(`[ValidationMiddleware] - ${JSON.stringify(errors, null, 4)}`);
       return next(new ValidationError(errors, 400));
     }
     next(); // validation passed, continue to controller

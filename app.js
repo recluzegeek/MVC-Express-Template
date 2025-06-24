@@ -18,7 +18,6 @@ import { connectToDB } from "./config/db.js";
 import logger from "./app/utils/logger.js";
 import { errorMiddleware } from "./app/utils/errorHandler.js";
 import { httpLogger } from "./app/middleware/httpLogger.js";
-// TODO: http logging for request either via morgan or manual
 
 // view engine setup
 app.set("views", path.join(__dirname(), "app/views"));

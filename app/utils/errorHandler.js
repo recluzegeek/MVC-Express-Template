@@ -19,11 +19,30 @@ export class ValidationError extends AppError {
   }
 }
 
+export class DatabaseError extends AppError {
+  constructor(message, errors = [], statusCode = 500) {
+    super(message, statusCode);
+    this.name = "DatabaseError";
+    this.errors = errors;
+  }
+}
+
 export const handleError = (err, res) => {
+  // JOI Validation errors
   if (err instanceof ValidationError) {
     logger.warn(`Validation Error:  ${JSON.stringify(err.errors, null, 2)}`);
     return res.status(err.statusCode).json({
       status: err.status,
+      message: err.message,
+      errors: err.errors,
+    });
+  }
+
+  // Sequelize Unique Constraint
+  if (err instanceof DatabaseError) {
+    logger.warn(`Database Error: ${JSON.stringify(err, null, 2)}`);
+    return res.status(err.statusCode).json({
+      status: err.statusCode,
       message: err.message,
       errors: err.errors,
     });

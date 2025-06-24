@@ -15,7 +15,7 @@ export const httpLogger = (req, res, next) => {
     referrrer: req.headers["referrer"] || req.headers["referer"] || "N/A",
     query: req.query,
     body: req.body,
-    headers: req.headers,
+    // headers: req.headers,
     timestamp: new Date().toISOString(),
   };
 
