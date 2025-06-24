@@ -14,7 +14,7 @@ function getAll(req, res, next) {
 
 function create(req, res, next) {
   // create new habit
-  logger.verbose(`Received request for habit creation: ${JSON.stringify(req.body)}`);
+  logger.verbose(`Received request for habit creation: ${JSON.stringify(req.body, null, 2)}`);
   const { name, description, category, frequency, status } = req.body;
   Habit.create({ name, description, category, status, frequency })
     .then(() => res.status(200).send("Habit saved successfuly!"))
@@ -26,7 +26,7 @@ function update(req, res, next) {
   const updateData = req.body;
 
   logger.verbose(
-    `Received update request for ID# : ${id} with data: ${JSON.stringify(updateData)}`
+    `Received update request for ID# : ${id} with data: ${JSON.stringify(updateData, null, 2)}`
   );
 
   // Remove fields that are undefined to avoid overwriting with undefined

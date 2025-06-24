@@ -21,7 +21,7 @@ export class ValidationError extends AppError {
 
 export const handleError = (err, res) => {
   if (err instanceof ValidationError) {
-    logger.warn("Validation Error", err.errors);
+    logger.warn(`Validation Error:  ${JSON.stringify(err.errors, null, 2)}`);
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
@@ -30,13 +30,14 @@ export const handleError = (err, res) => {
   }
 
   if (err.isOperational) {
+    logger.error(`Operational Error: ${err}`);
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
     });
   }
 
-  logger.error("ERROR:", err);
+  logger.error(`ERROR: ${err}`);
   return res.status(500).json({
     status: "error",
     message: "Something went wrong",

@@ -54,7 +54,7 @@ const logger = createLogger({
     }),
     new transports.File({
       filename: path.join(logPath, "combined.log"),
-      level: "info", // info and above
+      level: "http", // http and above
       format: fileFormat,
     }),
     new transports.Console({

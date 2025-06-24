@@ -17,6 +17,7 @@ import { connectToDB } from "./config/db.js";
 //logger config
 import logger from "./app/utils/logger.js";
 import { errorMiddleware } from "./app/utils/errorHandler.js";
+import { httpLogger } from "./app/middleware/httpLogger.js";
 // TODO: http logging for request either via morgan or manual
 
 // view engine setup
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(favicon(path.join(__dirname(), "public", "favicon/favicon.ico")));
 app.use(express.static(path.join(__dirname(), "public")));
+app.use(httpLogger);
 
 // bootstrap routes
 import webRoute from "./routes/web.js";
@@ -38,6 +40,11 @@ webRoute(app);
 apiRoute(app);
 
 app.use(errorMiddleware);
+
+process.on("uncaughtException", (err) => {
+  logger.error("Uncaught Exception:", err);
+  process.exit(1);
+});
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
