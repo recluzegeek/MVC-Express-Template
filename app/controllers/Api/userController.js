@@ -1,23 +1,25 @@
 import logger from "../../utils/logger.js";
 import User from "../../models/userModel.js";
 import { AppError, DatabaseError } from "../../utils/errorHandler.js";
+import { successResponse } from "../../utils/responseHandler.js";
 
 // TODO: update(), getAllPosts(),
 
 function getAll(_, res, next) {
   User.findAll()
-    .then((data) => res.status(200).json(data))
+    .then((data) => successResponse(res, data))
     .catch((err) => {
-      console.log(JSON.stringify(err, null, 4));
-      return next(new DatabaseError("Unable to fetch data", err, 400));
+      //   console.log(JSON.stringify(err, null, 4));
+      const messages = err.errors.map((e) => e.message);
+      return next(new DatabaseError("Unable to fetch data", messages, 400));
     });
 }
 
 function create(req, res, next) {
-  logger.verbose(`Received request for user creation: ${JSON.stringify(req.body, null, 2)}`);
+  //   logger.verbose(`Received request for user creation: ${JSON.stringify(req.body, null, 2)}`);
   const { name, username, password, email } = req.body;
   User.create({ name, username, email, password })
-    .then(() => res.status(200).send("User saved successfuly!"))
+    .then((data) => successResponse(res, { id: data.id }, "User saved successfuly!"))
     .catch((err) => {
       //   console.log(JSON.stringify(err, null, 4));
       const messages = err.errors.map((e) => e.message);
@@ -40,11 +42,14 @@ function update(req, res, next) {
   User.update(updateData, { where: { id } })
     .then(([affectedRows]) => {
       if (affectedRows === 0) {
-        return next(new AppError("User not found.", 404));
+        return next(new DatabaseError("User not found.", {}, 404));
       }
-      res.json("User updated successfully!");
+      successResponse(res, {}, "User updated successfully!");
     })
-    .catch((err) => next(new AppError(err.message || "Failed to update record", 500)));
+    .catch((err) => {
+      const messages = err.errors.map((e) => e.message);
+      return next(new DatabaseError("Failed to update record", messages, 500));
+    });
 }
 
 export default { getAll, create, update };

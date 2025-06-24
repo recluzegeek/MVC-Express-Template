@@ -1,13 +1,17 @@
 import logger from "../../utils/logger.js";
 import Habit from "../../models/habitModel.js";
-import { AppError } from "../../utils/errorHandler.js";
+import { DatabaseError, ValidationError } from "../../utils/errorHandler.js";
+import { successResponse } from "../../utils/responseHandler.js";
 
 function getAll(req, res, next) {
   // fetch all habits
 
   Habit.findAll()
-    .then((habits) => res.status(200).json(habits))
-    .catch((err) => next(new AppError(err.message || "Data fetching unsuccessfull", 500)));
+    .then((habits) => successResponse(res, habits))
+    .catch((err) => {
+      const messages = err.errors.map((e) => e.message);
+      return next(new DatabaseError("Unable to fetch data.", messages, 500));
+    });
 }
 
 function create(req, res, next) {
@@ -15,8 +19,11 @@ function create(req, res, next) {
   logger.verbose(`Received request for habit creation: ${JSON.stringify(req.body, null, 2)}`);
   const { name, description, category, frequency, status } = req.body;
   Habit.create({ name, description, category, status, frequency })
-    .then(() => res.status(200).send("Habit saved successfuly!"))
-    .catch((err) => next(new AppError(err.message || "Failed to create Habit.", 400)));
+    .then((data) => successResponse(res, { id: data.id }, "Habit saved successfuly!"))
+    .catch((err) => {
+      const messages = err.errors.map((e) => e.message);
+      next(new DatabaseError("Failed to create Habit.", messages, 400));
+    });
 }
 
 function update(req, res, next) {
@@ -31,17 +38,20 @@ function update(req, res, next) {
   Object.keys(updateData).forEach((key) => updateData[key] === undefined && delete updateData[key]);
 
   if (Object.keys(updateData).length === 0) {
-    return next(new AppError(err.message || "No valid fields provided for update", 400));
+    return next(new ValidationError(err.message || "No valid fields provided for update", 400));
   }
 
   Habit.update(updateData, { where: { id } })
     .then(([affectedRows]) => {
       if (affectedRows === 0) {
-        return next(new AppError("Habit not found.", 404));
+        return next(new DatabaseError("Habit not found.", {}, 404));
       }
-      res.json("Habit updated successfully!");
+      successResponse(res, {}, "Habit updated successfully!");
     })
-    .catch((err) => next(new AppError(err.message || "Failed to update record", 500)));
+    .catch((err) => {
+      const messages = err.errors.map((e) => e.message);
+      return next(new DatabaseError("Failed to update record", messages, 500));
+    });
 }
 
 export default { getAll, create, update };
