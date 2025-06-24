@@ -11,7 +11,24 @@ export class AppError extends Error {
   }
 }
 
+export class ValidationError extends AppError {
+  constructor(errors, statusCode = 400) {
+    super("Validation Failed", statusCode);
+    this.errors = errors;
+    this.name = "ValidationError";
+  }
+}
+
 export const handleError = (err, res) => {
+  if (err instanceof ValidationError) {
+    logger.warn("Validation Error", err.errors);
+    return res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+      errors: err.errors,
+    });
+  }
+
   if (err.isOperational) {
     return res.status(err.statusCode).json({
       status: err.status,
