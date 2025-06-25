@@ -7,26 +7,31 @@
 
 ## Related modules
 
-* express - web application framework for node
-* pug - template engine
-* stylus - pre-processor CSS
-* mongoose - nodejs orm for mongodb
-* bower - a package manager for the web
-* gulp - automate workflow
-* routes => api || web
+- express - web application framework for node
+- pug - template engine
+- stylus - pre-processor CSS
+- sequelize - nodejs orm for sql dbs
+- bower - a package manager for the web
+- gulp - automate workflow
+- routes => api || web
+- joi => advance http request validation
+- winston => for advance logging capabilities
 
 ## Prerequisites
 
-* Node.js `http://nodejs.org`
-* MongoDB `brew install mongodb`
+- Node.js `http://nodejs.org`
 
 ## Project Structure
+
 ```sh
 .
 ├── app/
 │   └── controllers           # contains controller files
-│   └── helpers               # contains helper files
+│   └── middleware            # contains middleware files
 │   └── models                # contains model files
+│   └── requests              # contains http request validation files
+│   └── seeds                 # contains database seeding files
+│   └── utils                 # contains helper files
 │   └── views                 # contains express view (pug) files
 ├── config/
 │   ├── index.js              # environment config file
@@ -66,7 +71,7 @@ The easiest way to get started is to clone the repository:
 
 ```sh
 # Get the latest snapshot
-$ git clone https://github.com/alicompu/express-mvc-starter.git myproject
+$ git clone https://github.com/recluzegeek/express-mvc-starter.git myproject
 $ cd myproject
 
 # Install dependencies
@@ -78,8 +83,8 @@ $ node app.js
 
 ## Development
 
-    npm run start
-    
+    npm run dev
+
 Your app should now be running on [localhost:3000](http://localhost:3000/).
 
 ## Test
@@ -92,11 +97,11 @@ Your app should now be running on [localhost:3000](http://localhost:3000/).
 
 ## Docker Support
 
-* Docker `https://docs.docker.com/engine/installation/`
+- Docker `https://docs.docker.com/engine/installation/`
 
 ```
 # Build the project
-docker-compose build  
+docker-compose build
 
 # Start the application
 docker-compose up
@@ -111,8 +116,6 @@ heroku create
 git push heroku master
 heroku open
 ```
-## Contact
-Site me for help you [Ali Najafi](http://alinajaficv.ir/)
 
 ## License
 

@@ -19,6 +19,7 @@ async function getAll(req, res, next) {
   }
 }
 
+// TODO: add category association with habits
 async function create(req, res) {
   // create new habit
   try {

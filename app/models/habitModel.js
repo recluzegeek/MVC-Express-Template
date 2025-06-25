@@ -77,14 +77,4 @@ const Habit = sequelize.define(
   }
 );
 
-// Habit.belongsTo(User, {
-//   onDelete: "CASCADE",
-//   onUpdate: "RESTRICT",
-//   foreignKey: {
-//     name: "user_id",
-//     type: DataTypes.UUID,
-//   },
-// });
-// Habit.sync();
-
 export default Habit;

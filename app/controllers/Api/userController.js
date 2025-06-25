@@ -4,7 +4,6 @@ import { DatabaseError, RecordNotFoundError } from "../../utils/errors/DatabaseE
 import { successResponse } from "../../utils/ResponseHandler.js";
 import { checkExistenceById } from "../../utils/DBUtils.js";
 
-// TODO: getAllPosts(),
 // TODO: while updating records, having unique constraint, make sure to ignore itself while
 // checking the unique constraint
 

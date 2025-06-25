@@ -2,7 +2,6 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/db.js";
 import Habit from "./HabitModel.js";
 
-// TODO: add user association with habits
 // TODO: hash password before storing
 
 const User = sequelize.define(
@@ -65,16 +64,5 @@ const User = sequelize.define(
     underscored: true,
   }
 );
-
-// User.hasMany(Habit, {
-//   onDelete: "CASCADE",
-//   onUpdate: "RESTRICT",
-//   foreignKey: {
-//     type: DataTypes.UUID,
-//     name: "user_id",
-//   },
-// });
-
-// User.sync();
 
 export default User;
