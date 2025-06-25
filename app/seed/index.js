@@ -1,11 +1,19 @@
 import { sequelize } from "../../config/db.js";
-import { User, Habit } from "../models/index.js";
+import { User, Habit, Category } from "../models/index.js";
 
 const seed = async () => {
+  const categoryEnum = ["Health", "Tech", "Social", "Knowledge", "Hobby", "House Chores"];
   try {
     await sequelize.sync({ force: true });
 
     console.log("📦 Database synced");
+
+    const categories = await Category.bulkCreate(
+      categoryEnum.map((name) => ({
+        name,
+      }))
+    );
+    console.log("📁 Categories seeded");
 
     // Seed users
     const users = await User.bulkCreate([
@@ -30,26 +38,26 @@ const seed = async () => {
       {
         name: "Read a book",
         description: "Read at least 10 pages daily.",
-        category: "Knowledge",
         status: "Pending",
         frequency: "Daily",
         user_id: users[0].id,
+        category_id: categories[4].id,
       },
       {
         name: "Workout",
         description: "Go to gym 3 times a week.",
-        category: "Health",
         status: "In Progress",
         frequency: "Weekly",
         user_id: users[1].id,
+        category_id: categories[0].id,
       },
     ]);
 
     console.log("📘 Habits seeded");
-    process.exit(0); // Exit process successfully
+    process.exit(0);
   } catch (error) {
     console.error("❌ Failed to seed DB:", error);
-    process.exit(1); // Exit process with failure
+    process.exit(1);
   }
 };
 

@@ -1,6 +1,5 @@
 import Joi from "joi";
 
-const categoryEnum = ["Health", "Tech", "Social", "Knowledge", "Hobby", "House Chores"];
 const frequencyEnum = ["Daily", "Weekly", "Monthly", "BiWeekly"];
 const statusEnum = ["Pending", "In Progress", "Done"];
 
@@ -21,14 +20,6 @@ const baseHabitSchema = Joi.object({
     "any.required": "Description is required",
   }),
 
-  category: Joi.string()
-    .valid(...categoryEnum)
-    .required()
-    .messages({
-      "any.only": `Category must be one of [${categoryEnum.join(", ")}]`,
-      "any.required": "Category is required",
-    }),
-
   frequency: Joi.string()
     .valid(...frequencyEnum)
     .required()
@@ -42,6 +33,12 @@ const baseHabitSchema = Joi.object({
     "string.empty": "User ID cannot be empty.",
     "string.guid": "User ID must be a valid UUID.",
     "any.required": "User ID is required.",
+  }),
+
+  category_id: Joi.number().integer().min(1).required().messages({
+    "number.base": "Category ID must be an integer number.",
+    "number.empty": "Category ID cannot be empty.",
+    "any.required": "Category ID is required.",
   }),
 
   status: Joi.string()

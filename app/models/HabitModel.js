@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/db.js";
-import User from "./UserModel.js";
 
 // sequelize or any ORM enforces validation at model level, not at application level
 // (before request hit the db). We  need to use a dedicated validator like joi,
@@ -9,7 +8,6 @@ import User from "./UserModel.js";
 // Bar.belongsTo(Foo) // one-to-one relation: with foreign key stored in Bar (source)
 // Habit.belongsTo(User)  // one-to-one relation: with foreign key stored in Habit (user_id - foreign key)
 
-const categoryEnum = ["Health", "Tech", "Social", "Knowledge", "Hobby", "House Chores"];
 const frequencyEnum = ["Daily", "Weekly", "Monthly", "BiWeekly"];
 const statusEnum = ["Pending", "In Progress", "Done"];
 
@@ -41,16 +39,6 @@ const Habit = sequelize.define(
         },
       },
     },
-    category: {
-      type: DataTypes.ENUM(categoryEnum),
-      allowNull: true,
-      validate: {
-        isIn: {
-          args: [categoryEnum],
-          msg: `Frequency must be one of: ${[...categoryEnum]}`,
-        },
-      },
-    },
     status: {
       type: DataTypes.ENUM(statusEnum),
       defaultValue: "Pending",
@@ -69,6 +57,27 @@ const Habit = sequelize.define(
           msg: `Frequency must be one of: ${[...frequencyEnum]}`,
         },
       },
+    },
+    user_id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "id",
+      },
+      onDelete: "CASCADE",
+      onUpdate: "CASCADE",
+    },
+
+    category_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "categories",
+        key: "id",
+      },
+      onUpdate: "CASCADE",
+      onDelete: "SET NULL",
     },
   },
   {

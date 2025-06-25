@@ -1,4 +1,4 @@
-import { Habit, User } from "../../models/index.js";
+import { Category, Habit, User } from "../../models/index.js";
 import { AppError } from "../../utils/errors/AppError.js";
 import { DatabaseError, RecordNotFoundError } from "../../utils/errors/DatabaseError.js";
 import { successResponse } from "../../utils/ResponseHandler.js";
@@ -9,7 +9,15 @@ import { checkExistenceById } from "../../utils/DBUtils.js";
 
 async function getAll(_, res, next) {
   try {
-    const data = await User.findAll({ include: Habit });
+    const data = await User.findAll({
+      attributes: { exclude: ["password"] },
+      include: {
+        model: Habit,
+        attributes: {
+          exclude: ["id", "user_id", "category_id"],
+        },
+      },
+    });
     successResponse(res, data);
   } catch (err) {
     const messages = err.errors.map((e) => e.message);
@@ -59,7 +67,16 @@ async function getHabits(req, res, next) {
   const { id } = req.params;
   try {
     const user = await checkExistenceById(User, id, "User");
-    const habits = await user.getHabits();
+    const habits = await user.getHabits({
+      attributes: { exclude: ["id", "user_id"] },
+      include: {
+        model: Category,
+        attributes: {
+          include: ["name", "description"],
+          exclude: ["id"],
+        },
+      },
+    });
     successResponse(res, habits, "Success", 200);
   } catch (err) {
     console.log(`${JSON.stringify(err, null, 4)}`);
