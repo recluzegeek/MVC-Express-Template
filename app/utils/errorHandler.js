@@ -1,4 +1,5 @@
 import logger from "./Logger.js";
+import { AppError } from "./errors/AppError.js";
 import { ValidationError } from "./errors/ValidationError.js";
 
 export const handleError = (err, res) => {
@@ -45,7 +46,7 @@ export const handleError = (err, res) => {
 
   // Custom app/db errors
   if (err instanceof AppError) {
-    logger.error(`[AppError] ${err.name}: ${err.message}`);
+    logger.error(`[AppError] ${err.name}: ${err.message} - ${err.errors}`);
     return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,

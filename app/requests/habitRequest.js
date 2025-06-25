@@ -56,7 +56,15 @@ const baseHabitSchema = Joi.object({
 // keep the same base habit schema, yet modify required() => optional()
 const updateHabitSchema = baseHabitSchema
   .fork(Object.keys(baseHabitSchema.describe().keys), (schema) => schema.optional())
-  .min(1)
+  .keys({
+    user_id: Joi.string().uuid().required().messages({
+      "string.base": "User ID must be a string.",
+      "string.empty": "User ID cannot be empty.",
+      "string.guid": "User ID must be a valid UUID.",
+      "any.required": "User ID is required.",
+    }),
+  })
+  .min(2)
   .message(
     `Must have at least one of the following keys: ${Object.keys(
       baseHabitSchema.describe().keys

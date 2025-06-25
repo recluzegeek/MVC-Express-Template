@@ -24,7 +24,7 @@ export class UniqueConstraintError extends DatabaseError {
 
 export class RecordNotFoundError extends DatabaseError {
   constructor(modelName = "Record", id = "", statusCode = 404) {
-    super(`${modelName} with ID ${id} not found`, [], statusCode);
+    super("Record Not Found", [`${modelName} with ID ${id} not found`], statusCode);
     this.name = "RecordNotFoundError";
   }
 }
@@ -33,5 +33,14 @@ export class SequelizeValidationError extends DatabaseError {
   constructor(message = "Validation error", errors = [], statusCode = 400) {
     super(message, errors, statusCode);
     this.name = "SequelizeValidationError";
+  }
+}
+
+export class OwnershipError extends AppError {
+  constructor(entity = "Record", id, statusCode = 403) {
+    super(`${entity} with ID '${id}' does not belong to the current user.`, statusCode);
+    this.name = "OwnershipError";
+    this.status = "unauthorized";
+    this.id = id;
   }
 }

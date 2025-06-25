@@ -13,6 +13,7 @@ export const httpLogger = (req, res, next) => {
     protocol: req.protocol,
     userAgent: req.headers["user-agent"],
     referrrer: req.headers["referrer"] || req.headers["referer"] || "N/A",
+    params: req.params,
     query: req.query,
     body: req.body,
     // headers: req.headers,
