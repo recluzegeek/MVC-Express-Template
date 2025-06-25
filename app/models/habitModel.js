@@ -1,18 +1,15 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/db.js";
+import User from "./userModel.js";
 
 // sequelize or any ORM enforces validation at model level, not at application level
 // (before request hit the db). We  need to use a dedicated validator like joi,
 //  or express-validator for this purpose
 
-const categoryEnum = [
-  "Health",
-  "Tech",
-  "Social",
-  "Knowledge",
-  "Hobby",
-  "House Chores",
-];
+// Bar.belongsTo(Foo) // one-to-one relation: with foreign key stored in Bar (source)
+// Habit.belongsTo(User)  // one-to-one relation: with foreign key stored in Habit (user_id - foreign key)
+
+const categoryEnum = ["Health", "Tech", "Social", "Knowledge", "Hobby", "House Chores"];
 const frequencyEnum = ["Daily", "Weekly", "Monthly", "BiWeekly"];
 const statusEnum = ["Pending", "In Progress", "Done"];
 
@@ -79,5 +76,15 @@ const Habit = sequelize.define(
     timestamps: true,
   }
 );
+
+// Habit.belongsTo(User, {
+//   onDelete: "CASCADE",
+//   onUpdate: "RESTRICT",
+//   foreignKey: {
+//     name: "user_id",
+//     type: DataTypes.UUID,
+//   },
+// });
+// Habit.sync();
 
 export default Habit;

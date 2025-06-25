@@ -37,6 +37,13 @@ const baseHabitSchema = Joi.object({
       "any.required": "Frequency is required",
     }),
 
+  user_id: Joi.string().uuid().required().messages({
+    "string.base": "User ID must be a string.",
+    "string.empty": "User ID cannot be empty.",
+    "string.guid": "User ID must be a valid UUID.",
+    "any.required": "User ID is required.",
+  }),
+
   status: Joi.string()
     .valid(...statusEnum)
     .required()
@@ -51,9 +58,18 @@ const updateHabitSchema = baseHabitSchema
   .fork(Object.keys(baseHabitSchema.describe().keys), (schema) => schema.optional())
   .min(1)
   .message(
-    `Must have at least one of the following keys: ${
-      Object.keys(baseHabitSchema.describe().keys).join(', ')
-    }`
+    `Must have at least one of the following keys: ${Object.keys(
+      baseHabitSchema.describe().keys
+    ).join(", ")}`
   );
 
-export { baseHabitSchema as createHabitSchema, updateHabitSchema };
+const getHabitSchema = Joi.object({
+  user_id: Joi.string().uuid().required().messages({
+    "string.base": "User ID must be a string.",
+    "string.empty": "User ID cannot be empty.",
+    "string.guid": "User ID must be a valid UUID.",
+    "any.required": "User ID is required.",
+  }),
+});
+
+export { baseHabitSchema as createHabitSchema, updateHabitSchema, getHabitSchema };

@@ -3,7 +3,11 @@
 import express from "express";
 import validationMiddleware from "../app/middleware/validationMiddleware.js";
 
-import { createHabitSchema, updateHabitSchema } from "../app/requests/habitRequest.js";
+import {
+  createHabitSchema,
+  getHabitSchema,
+  updateHabitSchema,
+} from "../app/requests/habitRequest.js";
 import habitsController from "../app/controllers/Api/habitController.js";
 
 import { createUserSchema, updateUserSchema } from "../app/requests/userRequest.js";
@@ -18,7 +22,7 @@ habitRouter.put("/update/:id", validationMiddleware(updateHabitSchema), habitsCo
 
 userRouter.get("/", userController.getAll);
 userRouter.post("/create", validationMiddleware(createUserSchema), userController.create);
-userRouter.post("/update/:id", validationMiddleware(updateUserSchema), userController.update);
+userRouter.put("/update/:id", validationMiddleware(updateUserSchema), userController.update);
 
 export default function (app) {
   // Routes prefix

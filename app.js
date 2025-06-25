@@ -12,7 +12,7 @@ const app = express();
 import config from "./config/config.js";
 
 // database config
-import { connectToDB } from "./config/db.js";
+import { sequelize, connectToDB } from "./config/db.js";
 
 //logger config
 import logger from "./app/utils/logger.js";
@@ -64,6 +64,7 @@ app.use((err, req, res, next) => {
 
 try {
   await connectToDB();
+  await sequelize.sync({ alter: true });
   app.listen(config.server.port, config.server.hostname, () => {
     logger.info(`Server running on: www.${config.server.hostname}:${config.server.port}`);
     logger.info(`App listening on ${config.server.hostname} port: ${config.server.port}`);

@@ -1,9 +1,10 @@
-import logger from "../../utils/logger.js";
-import User from "../../models/userModel.js";
+import { User } from "../../models/index.js";
 import { AppError, DatabaseError } from "../../utils/errorHandler.js";
 import { successResponse } from "../../utils/responseHandler.js";
 
-// TODO: update(), getAllPosts(),
+// TODO: getAllPosts(),
+// TODO: while updating records, having unique constraint, make sure to ignore itself while
+// checking the unique constraint
 
 function getAll(_, res, next) {
   User.findAll()
