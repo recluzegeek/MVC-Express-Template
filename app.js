@@ -15,9 +15,9 @@ import config from "./config/config.js";
 import { sequelize, connectToDB } from "./config/db.js";
 
 //logger config
-import logger from "./app/utils/logger.js";
-import { errorMiddleware } from "./app/utils/errorHandler.js";
-import { httpLogger } from "./app/middleware/httpLogger.js";
+import logger from "./app/utils/Logger.js";
+import { errorMiddleware } from "./app/middleware/ErrorHandlerMiddleware.js";
+import { httpLogger } from "./app/middleware/HttpLoggerMiddleware.js";
 
 // view engine setup
 app.set("views", path.join(__dirname(), "app/views"));
@@ -64,7 +64,7 @@ app.use((err, req, res, next) => {
 
 try {
   await connectToDB();
-  await sequelize.sync({ alter: true });
+  // await sequelize.sync({ alter: true });
   app.listen(config.server.port, config.server.hostname, () => {
     logger.info(`Server running on: www.${config.server.hostname}:${config.server.port}`);
     logger.info(`App listening on ${config.server.hostname} port: ${config.server.port}`);

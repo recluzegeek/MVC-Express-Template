@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/db.js";
-import User from "./userModel.js";
+import User from "./UserModel.js";
 
 // sequelize or any ORM enforces validation at model level, not at application level
 // (before request hit the db). We  need to use a dedicated validator like joi,

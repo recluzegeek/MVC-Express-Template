@@ -1,17 +1,17 @@
 /* eslint-disable global-require, func-names */
 
 import express from "express";
-import validationMiddleware from "../app/middleware/validationMiddleware.js";
+import validationMiddleware from "../app/middleware/ValidationMiddleware.js";
 
 import {
   createHabitSchema,
   getHabitSchema,
   updateHabitSchema,
-} from "../app/requests/habitRequest.js";
-import habitsController from "../app/controllers/Api/habitController.js";
+} from "../app/requests/HabitRequest.js";
+import habitsController from "../app/controllers/Api/HabitController.js";
 
-import { createUserSchema, updateUserSchema } from "../app/requests/userRequest.js";
-import userController from "../app/controllers/Api/userController.js";
+import { createUserSchema, updateUserSchema } from "../app/requests/UserRequest.js";
+import userController from "../app/controllers/Api/UserController.js";
 
 const habitRouter = express.Router();
 const userRouter = express.Router();
@@ -21,6 +21,7 @@ habitRouter.post("/create", validationMiddleware(createHabitSchema), habitsContr
 habitRouter.put("/update/:id", validationMiddleware(updateHabitSchema), habitsController.update);
 
 userRouter.get("/", userController.getAll);
+userRouter.get("/habits/:id", userController.getHabits);
 userRouter.post("/create", validationMiddleware(createUserSchema), userController.create);
 userRouter.put("/update/:id", validationMiddleware(updateUserSchema), userController.update);
 

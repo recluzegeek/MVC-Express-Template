@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../config/db.js";
-import Habit from "./habitModel.js";
+import Habit from "./HabitModel.js";
 
 // TODO: add user association with habits
 // TODO: hash password before storing

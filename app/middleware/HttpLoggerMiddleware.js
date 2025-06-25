@@ -1,4 +1,4 @@
-import logger from "../utils/logger.js";
+import logger from "../utils/Logger.js";
 
 export const httpLogger = (req, res, next) => {
   const start = process.hrtime.bigint();

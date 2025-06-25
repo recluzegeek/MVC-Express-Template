@@ -1,13 +1,14 @@
-import { User } from "../../models/index.js";
-import { AppError, DatabaseError } from "../../utils/errorHandler.js";
-import { successResponse } from "../../utils/responseHandler.js";
+import { Habit, User } from "../../models/index.js";
+import { AppError } from "../../utils/errors/AppError.js";
+import { DatabaseError } from "../../utils/errors/DatabaseError.js";
+import { successResponse } from "../../utils/ResponseHandler.js";
 
 // TODO: getAllPosts(),
 // TODO: while updating records, having unique constraint, make sure to ignore itself while
 // checking the unique constraint
 
 function getAll(_, res, next) {
-  User.findAll()
+  User.findAll({ include: Habit })
     .then((data) => successResponse(res, data))
     .catch((err) => {
       //   console.log(JSON.stringify(err, null, 4));
@@ -52,5 +53,16 @@ function update(req, res, next) {
       return next(new DatabaseError("Failed to update record", messages, 500));
     });
 }
+// TODO: ensure valid user_id is passed
+async function getHabits(req, res, next) {
+  const { id } = req.params;
+  try {
+    const user = await User.findByPk(id);
+    const habits = await user.getHabits();
+    successResponse(res, habits, "Success", 200);
+  } catch (err) {
+    console.log(`${JSON.stringify(err, null, 4)}`);
+  }
+}
 
-export default { getAll, create, update };
+export default { getAll, create, update, getHabits };

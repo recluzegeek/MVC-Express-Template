@@ -1,8 +1,9 @@
-import logger from "../../utils/logger.js";
+import logger from "../../utils/Logger.js";
 import { Habit, User } from "../../models/index.js";
-import { DatabaseError, ValidationError } from "../../utils/errorHandler.js";
-import { successResponse } from "../../utils/responseHandler.js";
-import { checkExistenceById } from "../../utils/dbUtils.js";
+import { DatabaseError } from "../../utils/errors/DatabaseError.js";
+import { ValidationError } from "../../utils/errors/ValidationError.js";
+import { successResponse } from "../../utils/ResponseHandler.js";
+import { checkExistenceById } from "../../utils/DBUtils.js";
 
 // TODO: Central error handling for db related operations, so no need to write classess for each
 // of the type

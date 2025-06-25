@@ -2,7 +2,7 @@
 // the controller. If it passes, continue to controller,
 // else respond back with error message's
 
-import { ValidationError } from "../utils/errorHandler.js";
+import { ValidationError } from "../utils/errors/ValidationError.js";
 
 const validationMiddleware = (schema) => {
   return (req, res, next) => {

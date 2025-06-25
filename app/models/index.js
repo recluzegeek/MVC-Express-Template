@@ -1,5 +1,5 @@
-import User from "./userModel.js";
-import Habit from "./habitModel.js";
+import User from "./UserModel.js";
+import Habit from "./HabitModel.js";
 
 User.hasMany(Habit, {
   foreignKey: "user_id",

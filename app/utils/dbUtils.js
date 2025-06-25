@@ -1,4 +1,4 @@
-import { DatabaseError } from "./errorHandler.js";
+import { DatabaseError } from "./errors/DatabaseError.js";
 
 export async function checkExistenceById(model, id, next, name = "Record") {
   try {

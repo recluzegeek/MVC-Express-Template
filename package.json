@@ -12,6 +12,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "mocha -R spec ./test/*.js",
+    "seed": "node --no-warnings app/seed/index.js",
     "lint": "eslint ./ || exit 0",
     "lint-fix": "eslint ./ --fix || exit 0"
   },
