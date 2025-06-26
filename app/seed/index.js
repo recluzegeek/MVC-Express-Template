@@ -1,5 +1,9 @@
+import { has } from "browser-sync";
 import { sequelize } from "../../config/db.js";
 import { User, Habit, Category } from "../models/index.js";
+import { hash } from "bcrypt";
+
+const hashedPassword = await Promise.all([hash("Password123!", 10), hash("Password123!", 10)]);
 
 const seed = async () => {
   const categoryEnum = ["Health", "Tech", "Social", "Knowledge", "Hobby", "House Chores"];
@@ -21,13 +25,13 @@ const seed = async () => {
         name: "Alice Johnson",
         username: "alicej",
         email: "alice@example.com",
-        password: "Password123!",
+        password: hashedPassword[0],
       },
       {
         name: "Bob Smith",
         username: "bobsmith",
         email: "bob@example.com",
-        password: "Password123!",
+        password: hashedPassword[1],
       },
     ]);
 

@@ -3,6 +3,7 @@ import { AppError } from "../../utils/errors/AppError.js";
 import { DatabaseError, RecordNotFoundError } from "../../utils/errors/DatabaseError.js";
 import { successResponse } from "../../utils/ResponseHandler.js";
 import { checkExistenceById } from "../../utils/DBUtils.js";
+import { hash } from "bcrypt";
 
 // TODO: while updating records, having unique constraint, make sure to ignore itself while
 // checking the unique constraint
@@ -10,7 +11,7 @@ import { checkExistenceById } from "../../utils/DBUtils.js";
 async function getAll(_, res, next) {
   try {
     const data = await User.findAll({
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: [""] },
       include: {
         model: Habit,
         attributes: {
@@ -28,7 +29,8 @@ async function getAll(_, res, next) {
 async function create(req, res, next) {
   //   logger.verbose(`Received request for user creation: ${JSON.stringify(req.body, null, 2)}`);
   try {
-    const { name, username, password, email } = req.body;
+    let { name, username, password, email } = req.body;
+    password = await hash(password, 10);
     const data = await User.create({ name, username, email, password });
     successResponse(res, { id: data.id }, "User saved successfuly!");
   } catch (err) {

@@ -33,12 +33,12 @@ categoryRouter.post(
 
 userRouter.get("/", userController.getAll);
 userRouter.get("/habits/:id", userController.getHabits);
-userRouter.post("/create", validationMiddleware(createUserSchema), userController.create);
+userRouter.post("/signup", validationMiddleware(createUserSchema), userController.create);
 userRouter.put("/update/:id", validationMiddleware(updateUserSchema), userController.update);
 
 export default function (app) {
   // Routes prefix
+  app.use("/api", userRouter);
   app.use("/api/habits", habitRouter);
   app.use("/api/categories", categoryRouter);
-  app.use("/api/users", userRouter);
 }
