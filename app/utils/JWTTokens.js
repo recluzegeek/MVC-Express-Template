@@ -15,7 +15,7 @@ import pkg from "jsonwebtoken";
 const { sign } = pkg;
 import { successResponse } from "./ResponseHandler.js";
 
-async function createAccessToken(id) {
+function createAccessToken(id) {
   return sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: 15 * 60, // expires in 15 mins
   });
@@ -25,7 +25,7 @@ async function revoke_token(params) {
   return "token created";
 }
 
-async function createRefreshToken(id) {
+function createRefreshToken(id) {
   return sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "90d",
   });
@@ -35,11 +35,11 @@ async function revoke_refresh_token(params) {
   return "token created";
 }
 
-async function sendAcessToken(res, accessToken) {
+function sendAcessToken(res, accessToken) {
   successResponse(res, { accessToken }, "Sign in Successful");
 }
 
-async function sendRefreshToken(res, refreshToken) {
+function sendRefreshToken(res, refreshToken) {
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
