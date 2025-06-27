@@ -30,7 +30,7 @@ export const handleError = (err, res) => {
     logger.warn(`[UniqueConstraintError] ${JSON.stringify(errors)}`);
     return res.status(409).json({
       status: "failed",
-      message: "Duplicate record",
+      message: "User already exists.",
       errors,
     });
   }

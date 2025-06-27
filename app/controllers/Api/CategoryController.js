@@ -1,11 +1,4 @@
-import {
-  DatabaseError,
-  RecordNotFoundError,
-  OwnershipError,
-} from "../../utils/errors/DatabaseError.js";
-import { ValidationError } from "../../utils/errors/ValidationError.js";
 import { successResponse } from "../../utils/ResponseHandler.js";
-import { checkExistenceById } from "../../utils/DBUtils.js";
 import Category from "../../models/CategoryModel.js";
 
 async function getAll(req, res, next) {
@@ -14,8 +7,9 @@ async function getAll(req, res, next) {
     const categories = await Category.findAll();
     successResponse(res, categories);
   } catch (err) {
-    const messages = err.errors.map((e) => e.message);
-    return next(new DatabaseError("Unable to fetch data.", messages, 500));
+    next(err);
+    // const messages = err.errors.map((e) => e.message);
+    // return next(new DatabaseError("Unable to fetch data.", messages, 500));
   }
 }
 

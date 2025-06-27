@@ -11,7 +11,7 @@ import { hash } from "bcrypt";
 async function getAll(_, res, next) {
   try {
     const data = await User.findAll({
-      attributes: { exclude: [""] },
+      attributes: { exclude: [] },
       include: {
         model: Habit,
         attributes: {
@@ -21,8 +21,9 @@ async function getAll(_, res, next) {
     });
     successResponse(res, data);
   } catch (err) {
-    const messages = err.errors.map((e) => e.message);
-    return next(new DatabaseError("Unable to fetch data", messages, 400));
+    next(err);
+    // const messages = err.errors.map((e) => e.message);
+    // return next(new DatabaseError("Unable to fetch data", messages, 400));
   }
 }
 
@@ -34,9 +35,9 @@ async function create(req, res, next) {
     const data = await User.create({ name, username, email, password });
     successResponse(res, { id: data.id }, "User saved successfuly!");
   } catch (err) {
-    // next(err);
-    const messages = err.errors.map((e) => e.message);
-    return next(new DatabaseError("Unable to save user record", messages, 409));
+    next(err);
+    // const messages = err.errors.map((e) => e.message);
+    // return next(new DatabaseError("Unable to save user record", messages, 409));
   }
 }
 
@@ -44,6 +45,8 @@ async function update(req, res, next) {
   try {
     const { id } = req.params;
     const updateData = req.body;
+
+    checkExistenceById(User, id, "User");
 
     // Remove fields that are undefined to avoid overwriting with undefined
     Object.keys(updateData).forEach(
@@ -60,8 +63,9 @@ async function update(req, res, next) {
     }
     successResponse(res, {}, "User updated successfully!");
   } catch (err) {
-    const messages = err.errors.map((e) => e.message);
-    return next(new DatabaseError("Failed to update record", messages, 500));
+    next(err);
+    // const messages = err.errors.map((e) => e.message);
+    // return next(new DatabaseError("Failed to update record", messages, 500));
   }
 }
 
@@ -81,7 +85,7 @@ async function getHabits(req, res, next) {
     });
     successResponse(res, habits, "Success", 200);
   } catch (err) {
-    console.log(`${JSON.stringify(err, null, 4)}`);
+    // console.log(`${JSON.stringify(err, null, 4)}`);
     next(err);
     // return next(new DatabaseError("Failed to fetch user habits", [err.message], 500));
   }

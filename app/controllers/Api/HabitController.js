@@ -13,8 +13,9 @@ async function getAll(req, res, next) {
     });
     successResponse(res, habits);
   } catch (err) {
-    const messages = err.errors.map((e) => e.message);
-    return next(new DatabaseError("Unable to fetch data.", messages, 500));
+    next(err);
+    // const messages = err.errors.map((e) => e.message);
+    // return next(new DatabaseError("Unable to fetch data.", messages, 500));
   }
 }
 
