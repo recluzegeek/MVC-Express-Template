@@ -57,6 +57,10 @@ const User = sequelize.define(
         },
       },
     },
+    // storing JWT refreshTokens in DB, so they could be revoked for logout purposes, and others which i was unable to comprehend
+    // refreshToken: {
+    //   type: DataTypes.STRING(),
+    // },
   },
   {
     tableName: "users",

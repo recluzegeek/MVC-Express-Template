@@ -34,7 +34,9 @@ app.use(httpLogger);
 // bootstrap routes
 import webRoute from "./routes/web.js";
 import apiRoute from "./routes/api.js";
+import auth from "./routes/auth.js";
 
+auth(app);
 webRoute(app);
 apiRoute(app);
 

@@ -29,6 +29,13 @@ export class RecordNotFoundError extends DatabaseError {
   }
 }
 
+export class InvalidCredentialsError extends DatabaseError {
+  constructor(statusCode = 404) {
+    super("Invalid Credentials", ["Login failed. Invalid email or password."], statusCode);
+    this.name = "InvalidCredentialsError";
+  }
+}
+
 export class SequelizeValidationError extends DatabaseError {
   constructor(message = "Validation error", errors = [], statusCode = 400) {
     super(message, errors, statusCode);
