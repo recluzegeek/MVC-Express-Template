@@ -7,9 +7,9 @@ CommonJS modules can always be imported via the default export, for example usin
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 */
-import pkg from "jsonwebtoken";
+import pkg from 'jsonwebtoken';
 const { sign } = pkg;
-import { successResponse } from "./ResponseHandler.js";
+import { successResponse } from './ResponseHandler.js';
 
 function createAccessToken(id) {
   return sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
@@ -19,16 +19,16 @@ function createAccessToken(id) {
 
 function createRefreshToken(id) {
   return sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "90d",
+    expiresIn: '90d',
   });
 }
 
 function sendAcessToken(res, accessToken) {
-  successResponse(res, { accessToken }, "Sign in Successful");
+  successResponse(res, { accessToken }, 'Sign in Successful');
 }
 
 function sendRefreshToken(res, refreshToken) {
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     secure: true,
   });

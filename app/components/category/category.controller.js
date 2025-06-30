@@ -1,5 +1,5 @@
-import { successResponse } from "../../utils/ResponseHandler.js";
-import Category from "../../models/CategoryModel.js";
+import { successResponse } from '../../utils/ResponseHandler.js';
+import Category from './category.model.js';
 
 async function getAll(req, res, next) {
   // fetch all categories for admin
@@ -19,7 +19,7 @@ async function create(req, res) {
     const { name, description } = req.body;
 
     const data = await Category.create({ name, description });
-    successResponse(res, { id: data.id }, "Category saved successfuly!");
+    successResponse(res, { id: data.id }, 'Category saved successfuly!');
   } catch (err) {
     next(err);
   }

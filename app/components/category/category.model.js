@@ -1,8 +1,8 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../../config/db.js";
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../../../config/db.js';
 
 const Category = sequelize.define(
-  "Category",
+  'Category',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -13,10 +13,10 @@ const Category = sequelize.define(
       type: DataTypes.STRING(200),
       allowNull: false,
       validate: {
-        notEmpty: { msg: "Name must not be empty" },
+        notEmpty: { msg: 'Name must not be empty' },
         len: {
           args: [2, 200],
-          msg: "Name must be between 2 and 200 characters",
+          msg: 'Name must be between 2 and 200 characters',
         },
       },
     },
@@ -25,13 +25,13 @@ const Category = sequelize.define(
       validate: {
         len: {
           args: [10, 500],
-          msg: "Description must be between 10 and 500 characters",
+          msg: 'Description must be between 10 and 500 characters',
         },
       },
     },
   },
   {
-    tableName: "categories",
+    tableName: 'categories',
     timestamps: true,
   }
 );

@@ -23,12 +23,13 @@ rules:
     - always
   no-unused-vars:
     - error
+    - always
     - argsIgnorePattern: next
   eol-last:
     - error
     - always
   import/extension:
-    - ignore
+    - off
     - always
   import/no-unresolved: 0
   no-console: 0

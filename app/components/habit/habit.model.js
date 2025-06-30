@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import { sequelize } from "../../config/db.js";
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../../../config/db.js';
 
 // sequelize or any ORM enforces validation at model level, not at application level
 // (before request hit the db). We  need to use a dedicated validator like joi,
@@ -8,11 +8,11 @@ import { sequelize } from "../../config/db.js";
 // Bar.belongsTo(Foo) // one-to-one relation: with foreign key stored in Bar (source)
 // Habit.belongsTo(User)  // one-to-one relation: with foreign key stored in Habit (user_id - foreign key)
 
-const frequencyEnum = ["Daily", "Weekly", "Monthly", "BiWeekly"];
-const statusEnum = ["Pending", "In Progress", "Done"];
+const frequencyEnum = ['Daily', 'Weekly', 'Monthly', 'BiWeekly'];
+const statusEnum = ['Pending', 'In Progress', 'Done'];
 
 const Habit = sequelize.define(
-  "Habit",
+  'Habit',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -23,10 +23,10 @@ const Habit = sequelize.define(
       type: DataTypes.STRING(200),
       allowNull: false,
       validate: {
-        notEmpty: { msg: "Name must not be empty" },
+        notEmpty: { msg: 'Name must not be empty' },
         len: {
           args: [2, 200],
-          msg: "Name must be between 2 and 200 characters",
+          msg: 'Name must be between 2 and 200 characters',
         },
       },
     },
@@ -35,13 +35,13 @@ const Habit = sequelize.define(
       validate: {
         len: {
           args: [10, 500],
-          msg: "Description must be between 10 and 500 characters",
+          msg: 'Description must be between 10 and 500 characters',
         },
       },
     },
     status: {
       type: DataTypes.ENUM(statusEnum),
-      defaultValue: "Pending",
+      defaultValue: 'Pending',
       validate: {
         isIn: {
           args: [statusEnum],
@@ -62,26 +62,26 @@ const Habit = sequelize.define(
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: "users",
-        key: "id",
+        model: 'users',
+        key: 'id',
       },
-      onDelete: "CASCADE",
-      onUpdate: "CASCADE",
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
 
     category_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "categories",
-        key: "id",
+        model: 'categories',
+        key: 'id',
       },
-      onUpdate: "CASCADE",
-      onDelete: "SET NULL",
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
     },
   },
   {
-    tableName: "habits",
+    tableName: 'habits',
     timestamps: true,
   }
 );

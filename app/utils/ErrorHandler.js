@@ -1,6 +1,6 @@
-import logger from "./Logger.js";
-import { AppError } from "./errors/AppError.js";
-import { ValidationError } from "./errors/ValidationError.js";
+import logger from './Logger.js';
+import { AppError } from './errors/AppError.js';
+import { ValidationError } from './errors/ValidationError.js';
 
 export const handleError = (err, res) => {
   // JOI Validation errors
@@ -14,33 +14,33 @@ export const handleError = (err, res) => {
   }
 
   // Sequelize validation
-  if (err.name === "SequelizeValidationError") {
+  if (err.name === 'SequelizeValidationError') {
     const errors = err.errors.map((e) => e.message);
     logger.warn(`[SequelizeValidationError] ${JSON.stringify(errors)}`);
     return res.status(400).json({
-      status: "failed",
-      message: "Validation failed",
+      status: 'failed',
+      message: 'Validation failed',
       errors,
     });
   }
 
   // Sequelize unique constraint
-  if (err.name === "SequelizeUniqueConstraintError") {
+  if (err.name === 'SequelizeUniqueConstraintError') {
     const errors = err.errors.map((e) => e.message);
     logger.warn(`[UniqueConstraintError] ${JSON.stringify(errors)}`);
     return res.status(409).json({
-      status: "failed",
-      message: "User already exists.",
+      status: 'failed',
+      message: 'User already exists.',
       errors,
     });
   }
 
   // Foreign key constraint
-  if (err.name === "SequelizeForeignKeyConstraintError") {
+  if (err.name === 'SequelizeForeignKeyConstraintError') {
     logger.warn(`[ForeignKeyConstraintError] ${err.message}`);
     return res.status(409).json({
-      status: "failed",
-      message: "Foreign key constraint failed",
+      status: 'failed',
+      message: 'Foreign key constraint failed',
     });
   }
 
@@ -64,7 +64,7 @@ export const handleError = (err, res) => {
 
   logger.error(`ERROR: ${err}`);
   return res.status(500).json({
-    status: "error",
-    message: "Something went wrong",
+    status: 'error',
+    message: 'Something went wrong',
   });
 };

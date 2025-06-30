@@ -1,4 +1,4 @@
-import logger from "../utils/Logger.js";
+import logger from '../utils/Logger.js';
 
 export const httpLogger = (req, res, next) => {
   const start = process.hrtime.bigint();
@@ -11,8 +11,8 @@ export const httpLogger = (req, res, next) => {
     ip: req.ip,
     host: req.hostname,
     protocol: req.protocol,
-    userAgent: req.headers["user-agent"],
-    referrrer: req.headers["referrer"] || req.headers["referer"] || "N/A",
+    userAgent: req.headers['user-agent'],
+    referrrer: req.headers['referrer'] || req.headers['referer'] || 'N/A',
     params: req.params,
     query: req.query,
     body: req.body,
@@ -26,7 +26,7 @@ export const httpLogger = (req, res, next) => {
 
   // ---- Log Outgoing Response ----
 
-  res.on("finish", () => {
+  res.on('finish', () => {
     const end = process.hrtime.bigint();
     const durationMs = Number(end - start) / 1_000_000; // nanoseconds => miliseconds conversion
 
@@ -34,10 +34,10 @@ export const httpLogger = (req, res, next) => {
       ...requestMeta,
       status: res.statusCode,
       responseTime: `${durationMs} ms`,
-      contentLength: res.getHeader("content-length") || 0,
+      contentLength: res.getHeader('content-length') || 0,
     };
 
-    const level = res.statusCode >= 500 ? "error" : res.statusCode >= 400 ? "warn" : "http";
+    const level = res.statusCode >= 500 ? 'error' : res.statusCode >= 400 ? 'warn' : 'http';
 
     const logMessage = `Outgoing Response: ${req.method} ${req.originalUrl} ${res.statusCode} - ${durationMs} ms`;
     logger.log(level, `${logMessage}, ${JSON.stringify(responseMeta, null, 2)}`);

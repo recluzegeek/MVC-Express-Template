@@ -8,10 +8,12 @@ const config = {
       hostname: process.env.APP_HOSTNAME || 'localhost',
     },
     database: {
-    // url: `mongodb+srv://${process.env.DB_HOST || 'localhost'}:${process.env.DB_HOST || 27017}/${process.env.DB_NAME}`,
-    url: isAtlas
-            ? `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-            : `mongodb://${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 27017}/${process.env.DB_NAME}`
+      // url: `mongodb+srv://${process.env.DB_HOST || 'localhost'}:${process.env.DB_HOST || 27017}/${process.env.DB_NAME}`,
+      url: isAtlas
+        ? `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
+        : `mongodb://${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 27017}/${
+            process.env.DB_NAME
+          }`,
     },
   },
   production: {
@@ -22,8 +24,10 @@ const config = {
     database: {
       // url: `mongodb+srv://${process.env.DB_HOST || 'localhost'}:${process.env.DB_HOST || 27017}/${process.env.DB_NAME}`,
       url: isAtlas
-          ? `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
-          : `mongodb://${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 27017}/${process.env.DB_NAME}`
+        ? `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}?retryWrites=true&w=majority`
+        : `mongodb://${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 27017}/${
+            process.env.DB_NAME
+          }`,
     },
   },
 };
