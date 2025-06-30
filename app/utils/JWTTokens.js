@@ -1,7 +1,3 @@
-// jwt token creation
-// jwt token revocation
-// jwt refresh token
-// jwt refresh token revocation
 /*
 import { sign } from "jsonwebtoken";
          ^^^^
@@ -21,18 +17,10 @@ function createAccessToken(id) {
   });
 }
 
-async function revoke_token(params) {
-  return "token created";
-}
-
 function createRefreshToken(id) {
   return sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "90d",
   });
-}
-
-async function revoke_refresh_token(params) {
-  return "token created";
 }
 
 function sendAcessToken(res, accessToken) {

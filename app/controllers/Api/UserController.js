@@ -1,6 +1,6 @@
 import { Category, Habit, User } from "../../models/index.js";
 import { AppError } from "../../utils/errors/AppError.js";
-import { DatabaseError, RecordNotFoundError } from "../../utils/errors/DatabaseError.js";
+import { RecordNotFoundError } from "../../utils/errors/DatabaseError.js";
 import { successResponse } from "../../utils/ResponseHandler.js";
 import { checkExistenceById } from "../../utils/DBUtils.js";
 import { hash } from "bcrypt";
@@ -46,7 +46,7 @@ async function update(req, res, next) {
     const { id } = req.params;
     const updateData = req.body;
 
-    checkExistenceById(User, id, "User");
+    await checkExistenceById(id, "User");
 
     // Remove fields that are undefined to avoid overwriting with undefined
     Object.keys(updateData).forEach(
@@ -72,7 +72,7 @@ async function update(req, res, next) {
 async function getHabits(req, res, next) {
   const { id } = req.params;
   try {
-    const user = await checkExistenceById(User, id, "User");
+    const user = await checkExistenceById(id, "User");
     const habits = await user.getHabits({
       attributes: { exclude: ["id", "user_id"] },
       include: {

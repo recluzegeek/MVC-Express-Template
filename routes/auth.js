@@ -1,19 +1,21 @@
 /* eslint-disable global-require, func-names */
 import authController from "../app/controllers/Api/AuthController.js";
 import express from "express";
-import { authMiddleware } from "../app/middleware/AuthMiddleware.js";
+import { requireAuthHeader } from "../app/middleware/auth/RequireAuth.js";
+import { validateRefreshToken } from "../app/middleware/auth/ValidateRefreshToken.js";
+import { attachUser } from "../app/middleware/auth/AttachUser.js";
 
 const authRouter = express.Router();
 
 // login
 authRouter.post("/signin", authController.signin);
-authRouter.use(authMiddleware);
-// logout
-// TODO: ensure bearer token in headers, or pass through authentication
-// middleware
-authRouter.post("/logout", authController.logout);
 
-authRouter.post("/refresh_token", authController.refreshToken);
+// authRouter.use(requireAuthHeader);
+// authRouter.use(authMiddleware);
+// logout
+authRouter.post("/logout", [requireAuthHeader, validateRefreshToken], authController.logout);
+
+authRouter.post("/refresh_token", [validateRefreshToken, attachUser], authController.refreshToken);
 
 // forget-password
 // verify-email

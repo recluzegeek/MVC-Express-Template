@@ -15,13 +15,13 @@ import userController from "../app/controllers/Api/UserController.js";
 
 import { createCategorySchema } from "../app/requests/CategoryRequest.js";
 import categoryController from "../app/controllers/Api/CategoryController.js";
-import { authMiddleware } from "../app/middleware/AuthMiddleware.js";
+import { requireAuthenticatedUser } from "../app/middleware/auth/RequireAuthenticatedUser.js";
 
 const habitRouter = express.Router();
 const categoryRouter = express.Router();
 const userRouter = express.Router();
 
-habitRouter.get("/", authMiddleware, habitsController.getAll);
+habitRouter.get("/", requireAuthenticatedUser, habitsController.getAll);
 habitRouter.post("/create", validationMiddleware(createHabitSchema), habitsController.create);
 habitRouter.put("/update/:id", validationMiddleware(updateHabitSchema), habitsController.update);
 

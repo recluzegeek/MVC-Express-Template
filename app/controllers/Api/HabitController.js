@@ -1,5 +1,5 @@
-import { Category, Habit, User } from "../../models/index.js";
-import { DatabaseError, OwnershipError } from "../../utils/errors/DatabaseError.js";
+import { Category, Habit } from "../../models/index.js";
+import { OwnershipError } from "../../utils/errors/DatabaseError.js";
 import { ValidationError } from "../../utils/errors/ValidationError.js";
 import { successResponse } from "../../utils/ResponseHandler.js";
 import { checkExistenceById } from "../../utils/DBUtils.js";
@@ -25,8 +25,8 @@ async function create(req, res, next) {
     const { name, description, frequency, status, user_id, category_id } = req.body;
 
     // Early return if record (User) doesn't exist (handled inside the function)
-    await checkExistenceById(User, user_id, "User");
-    await checkExistenceById(Category, category_id, "Category");
+    await checkExistenceById(user_id, "User");
+    await checkExistenceById(category_id, "Category", Category);
 
     const data = await Habit.create({ name, description, status, frequency, user_id, category_id });
     successResponse(res, { id: data.id }, "Habit saved successfuly!");
@@ -50,9 +50,9 @@ async function update(req, res, next) {
   // if they don't match, we throw ownership error
 
   // Fetch habit to ensure existence
-  const habit = await checkExistenceById(Habit, id, "Habit");
+  const habit = await checkExistenceById(id, "Habit", Habit);
   updateData.category_id &&
-    (await checkExistenceById(Category, updateData.category_id, "Category"));
+    (await checkExistenceById(updateData.category_id, "Category", Category));
 
   // Ownership check
   if (habit.user_id !== updateData.user_id) {
