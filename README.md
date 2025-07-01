@@ -3,7 +3,7 @@
 ==================================
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/oguzhanoya/express-mvc-boilerplate.svg?branch=master)](https://travis-ci.org/oguzhanoya/express-mvc-boilerplate)
 
-> An updated yet simple mvc boilerplate for express.js (gulp + expressjs + nodemon + browser-sync)
+> An updated yet simple mvc boilerplate for express.js (typescript+ expressjs + nodemon + browser-sync)
 
 ## Related modules
 
@@ -12,7 +12,6 @@
 - stylus - pre-processor CSS
 - sequelize - nodejs orm for sql dbs
 - bower - a package manager for the web
-- gulp - automate workflow
 - routes => api || web
 - joi => advance http request validation
 - winston => for advance logging capabilities
@@ -41,7 +40,7 @@
 │   │   └── ...
 │   ├── favicon               # favicon folder
 │   ├── fonts                 # contains font files
-│   ├── css                   # all files will generate from gulp
+│   ├── css                   # all files
 │   ├── styl                  # contains style sheets (stylus)
 │   ├── js                    # contains js files
 │   └── img                   # contains image files
@@ -56,11 +55,10 @@
 ├── .Procfile                 # process file for heroku implementation
 ├── .gitignore                # specifies intentionally untracked files to ignore
 ├── .editorconfig.js          # editor config
-├── .gulpfile.js              # gulp config
 ├── .eslintrc.yml             # eslint config
 ├── .eslintignore             # eslint ignore specific files and directories config file
 ├── .travis.yml               # travis ci config
-├── app.js                    # app setup file
+├── app.ts                    # app setup file
 └── package.json              # build scripts and dependencies
 
 ```
@@ -78,7 +76,7 @@ $ cd myproject
 $ npm install
 $ bower install
 
-$ node app.js
+$ tsx app.ts
 ```
 
 ## Development

@@ -4,13 +4,13 @@
 	"description": "A simple yet updated mvc boilerplate for express.js",
 	"private": true,
 	"type": "module",
-	"exports": "./app.js",
+	"exports": "./app.ts",
 	"directories": {
 		"test": "test"
 	},
 	"scripts": {
-		"start": "node app.js",
-		"dev": "ts-node-dev — respawn — pretty — transpile-only index.ts",
+		"start": "tsx app.js",
+		"dev": "tsx watch --clear-screen=false app.ts",
 		"tsc": "tsc",
 		"postinstall": "npm run tsc",
 		"test": "mocha -R spec ./test/*.js",
@@ -48,7 +48,7 @@
 		"@types/supertest": "^6.0.3",
 		"@types/winston": "^2.4.4",
 		"ts-node": "^10.9.2",
-		"ts-node-dev": "^2.0.0",
+		"tsx": "^4.20.3",
 		"typescript": "^5.8.3"
 	}
 }
