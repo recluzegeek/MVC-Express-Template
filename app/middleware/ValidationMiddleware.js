@@ -5,16 +5,16 @@
 import { ValidationError } from '../utils/errors/ValidationError.js';
 
 const validationMiddleware = (schema) => {
-  return (req, res, next) => {
-    const { error } = schema.validate(req.body || {}, { abortEarly: false, stripUnknown: true });
-    if (error) {
-      // Send all validation errors back
-      const errors = error.details.map((detail) => detail.message);
-      // console.log(`[ValidationMiddleware] - ${JSON.stringify(errors, null, 4)}`);
-      return next(new ValidationError(errors, 400));
-    }
-    next(); // validation passed, continue to controller
-  };
+	return (req, _res, next) => {
+		const { error } = schema.validate(req.body || {}, { abortEarly: false, stripUnknown: true });
+		if (error) {
+			// Send all validation errors back
+			const errors = error.details.map((detail) => detail.message);
+			// console.log(`[ValidationMiddleware] - ${JSON.stringify(errors, null, 4)}`);
+			return next(new ValidationError(errors, 400));
+		}
+		next(); // validation passed, continue to controller
+	};
 };
 
 export default validationMiddleware;

@@ -1,9 +1,10 @@
 /* eslint-disable global-require, func-names */
-import authController from '../app/controllers/Api/AuthController.js';
+
 import express from 'express';
+import authController from '../app/controllers/Api/AuthController.js';
+import { attachUser } from '../app/middleware/auth/AttachUser.js';
 import { requireAuthHeader } from '../app/middleware/auth/RequireAuth.js';
 import { validateRefreshToken } from '../app/middleware/auth/ValidateRefreshToken.js';
-import { attachUser } from '../app/middleware/auth/AttachUser.js';
 
 const authRouter = express.Router();
 
@@ -21,6 +22,6 @@ authRouter.post('/refresh_token', [validateRefreshToken, attachUser], authContro
 // verify-email
 
 export default function (app) {
-  // Routes prefix
-  app.use('/api/auth', authRouter);
+	// Routes prefix
+	app.use('/api/auth', authRouter);
 }

@@ -8,30 +8,32 @@ import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 */
 import pkg from 'jsonwebtoken';
+
 const { sign } = pkg;
+
 import { successResponse } from './ResponseHandler.js';
 
 function createAccessToken(id) {
-  return sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: 15 * 60, // expires in 15 mins
-  });
+	return sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
+		expiresIn: 15 * 60, // expires in 15 mins
+	});
 }
 
 function createRefreshToken(id) {
-  return sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: '90d',
-  });
+	return sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
+		expiresIn: '90d',
+	});
 }
 
 function sendAcessToken(res, accessToken) {
-  successResponse(res, { accessToken }, 'Sign in Successful');
+	successResponse(res, { accessToken }, 'Sign in Successful');
 }
 
 function sendRefreshToken(res, refreshToken) {
-  res.cookie('refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: true,
-  });
+	res.cookie('refreshToken', refreshToken, {
+		httpOnly: true,
+		secure: true,
+	});
 }
 
 export { createAccessToken, sendAcessToken, createRefreshToken, sendRefreshToken };

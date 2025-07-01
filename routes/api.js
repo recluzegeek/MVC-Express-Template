@@ -1,46 +1,10 @@
-/* eslint-disable global-require, func-names */
-
-import express from 'express';
-import validationMiddleware from '../app/middleware/ValidationMiddleware.js';
-
-import {
-  createHabitSchema,
-  getHabitSchema,
-  updateHabitSchema,
-} from '../app/components/habit/habit.request.js';
-import habitsController from '../app/components/habit/habit.controller.js';
-
-import { createUserSchema, updateUserSchema } from '../app/components/user/user.request.js';
-import userController from '../app/components/user/user.controller.js';
-
-import { createCategorySchema } from '../app/components/category/category.request.js';
-import categoryController from '../app/components/category/category.controller.js';
-
-import { requireAuthenticatedUser } from '../app/middleware/auth/RequireAuthenticatedUser.js';
-
-const habitRouter = express.Router();
-const categoryRouter = express.Router();
-const userRouter = express.Router();
-
-habitRouter.get('/', requireAuthenticatedUser, habitsController.getAll);
-habitRouter.post('/create', validationMiddleware(createHabitSchema), habitsController.create);
-habitRouter.put('/update/:id', validationMiddleware(updateHabitSchema), habitsController.update);
-
-categoryRouter.get('/', categoryController.getAll);
-categoryRouter.post(
-  '/create',
-  validationMiddleware(createCategorySchema),
-  categoryController.create
-);
-
-userRouter.get('/', userController.getAll);
-userRouter.get('/habits/:id', userController.getHabits);
-userRouter.post('/signup', validationMiddleware(createUserSchema), userController.create);
-userRouter.put('/update/:id', validationMiddleware(updateUserSchema), userController.update);
+import categoryRouter from '../app/components/category/category.route.js';
+import habitRouter from '../app/components/habit/habit.route.js';
+import userRouter from '../app/components/user/user.route.js';
 
 export default function (app) {
-  // Routes prefix
-  app.use('/api', userRouter);
-  app.use('/api/habits', habitRouter);
-  app.use('/api/categories', categoryRouter);
+	// Routes prefix
+	app.use('/api', userRouter);
+	app.use('/api/habits', habitRouter);
+	app.use('/api/categories', categoryRouter);
 }

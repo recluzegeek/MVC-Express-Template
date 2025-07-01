@@ -1,11 +1,11 @@
 {
-  "apps": [
-    {
-      "name": "express-mvc-boilerplate",
-      "script": "app.js",
-      "env": {
-        "NODE_ENV": "production"
-      }
-    }
-  ]
+	"apps": [
+		{
+			"name": "express-mvc-boilerplate",
+			"script": "app.js",
+			"env": {
+				"NODE_ENV": "production"
+			}
+		}
+	]
 }
