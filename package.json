@@ -10,7 +10,9 @@
 	},
 	"scripts": {
 		"start": "node app.js",
-		"dev": "nodemon app.js",
+		"dev": "ts-node-dev — respawn — pretty — transpile-only index.ts",
+		"tsc": "tsc",
+		"postinstall": "npm run tsc",
 		"test": "mocha -R spec ./test/*.js",
 		"seed": "node --no-warnings app/seed/index.js",
 		"lint": "biome check --write || exit 0"
@@ -19,25 +21,34 @@
 	"dependencies": {
 		"bcrypt": "^6.0.0",
 		"body-parser": "^2.2.0",
-		"browser-sync": "^3.0.4",
 		"cookie-parser": "^1.4.7",
 		"dotenv": "^16.5.0",
 		"express": "^5.1.0",
-		"gulp": "^5.0.1",
-		"gulp-nodemon": "^2.5.0",
-		"gulp-plumber": "^1.2.1",
-		"gulp-stylus": "^3.0.1",
 		"joi": "^17.13.3",
 		"jsonwebtoken": "^9.0.2",
 		"mocha": "^11.7.0",
-		"pug": "^3.0.3",
 		"sequelize": "^6.37.7",
-		"serve-favicon": "^2.5.1",
 		"sqlite3": "^5.1.7",
 		"supertest": "^7.1.1",
 		"winston": "^3.17.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.6"
+		"@biomejs/biome": "2.0.6",
+		"@tsconfig/node24": "^24.0.1",
+		"@types/bcrypt": "^5.0.2",
+		"@types/body-parser": "^1.19.6",
+		"@types/cookie-parser": "^1.4.9",
+		"@types/dotenv": "^6.1.1",
+		"@types/express": "^5.0.3",
+		"@types/joi": "^17.2.2",
+		"@types/jsonwebtoken": "^9.0.10",
+		"@types/mocha": "^10.0.10",
+		"@types/node": "^24.0.8",
+		"@types/sequelize": "^4.28.20",
+		"@types/supertest": "^6.0.3",
+		"@types/winston": "^2.4.4",
+		"ts-node": "^10.9.2",
+		"ts-node-dev": "^2.0.0",
+		"typescript": "^5.8.3"
 	}
 }

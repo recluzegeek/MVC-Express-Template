@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from 'express';
-import favicon from 'serve-favicon';
 
 dotenv.config();
 const app = express();
@@ -19,14 +18,14 @@ import config from './config/config.js';
 import { connectToDB } from './config/db.js';
 
 // view engine setup
-app.set('views', path.join(__dirname(), 'app/views'));
-app.set('view engine', 'pug');
+// app.set('views', path.join(__dirname(), 'app/views'));
+// app.set('view engine', 'pug');
 
 // app.use(logger(':method :url :status :res[content-length] - :response-time ms'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(favicon(path.join(__dirname(), 'public', 'favicon/favicon.ico')));
+// app.use(favicon(path.join(__dirname(), 'public', 'favicon/favicon.ico')));
 app.use(express.static(path.join(__dirname(), 'public')));
 app.use(httpLogger);
 
