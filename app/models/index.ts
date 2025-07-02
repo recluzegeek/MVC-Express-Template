@@ -1,9 +1,9 @@
 /** biome-ignore-all lint/style/noExportedImports: models have been modified
  *  since they were imported, as new associations have been defined on them */
 
-import Category from '../components/category/category.model.js';
-import Habit from '../components/habit/habit.model.js';
-import User from '../components/user/user.model.js';
+import { Category } from '../components/category/category.model.js';
+import { Habit } from '../components/habit/habit.model.js';
+import { User } from '../components/user/user.model.js';
 
 User.hasMany(Habit, {
 	foreignKey: 'user_id',

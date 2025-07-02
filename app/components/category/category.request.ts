@@ -17,7 +17,7 @@ const baseCategorySchema = Joi.object({
 		'any.required': 'Description is required',
 	}),
 
-	user_id: Joi.string().uuid().optional().messages({
+	userId: Joi.string().uuid().optional().messages({
 		'string.base': 'User ID must be a string.',
 		'string.empty': 'User ID cannot be empty.',
 		'string.guid': 'User ID must be a valid UUID.',

@@ -28,14 +28,14 @@ const baseHabitSchema = Joi.object({
 			'any.required': 'Frequency is required',
 		}),
 
-	user_id: Joi.string().uuid().required().messages({
+	userId: Joi.string().uuid().required().messages({
 		'string.base': 'User ID must be a string.',
 		'string.empty': 'User ID cannot be empty.',
 		'string.guid': 'User ID must be a valid UUID.',
 		'any.required': 'User ID is required.',
 	}),
 
-	category_id: Joi.number().integer().min(1).required().messages({
+	categoryId: Joi.number().integer().min(1).required().messages({
 		'number.base': 'Category ID must be an integer number.',
 		'number.empty': 'Category ID cannot be empty.',
 		'any.required': 'Category ID is required.',
@@ -52,9 +52,9 @@ const baseHabitSchema = Joi.object({
 
 // keep the same base habit schema, yet modify required() => optional()
 const updateHabitSchema = baseHabitSchema
-	.fork(Object.keys(baseHabitSchema.describe().keys), (schema) => schema.optional())
+	.fork(Object.keys(baseHabitSchema.describe().keys ?? {}), (schema) => schema.optional())
 	.keys({
-		user_id: Joi.string().uuid().required().messages({
+		userId: Joi.string().uuid().required().messages({
 			'string.base': 'User ID must be a string.',
 			'string.empty': 'User ID cannot be empty.',
 			'string.guid': 'User ID must be a valid UUID.',
@@ -69,7 +69,7 @@ const updateHabitSchema = baseHabitSchema
 	);
 
 const getHabitSchema = Joi.object({
-	user_id: Joi.string().uuid().required().messages({
+	userId: Joi.string().uuid().required().messages({
 		'string.base': 'User ID must be a string.',
 		'string.empty': 'User ID cannot be empty.',
 		'string.guid': 'User ID must be a valid UUID.',

@@ -42,11 +42,11 @@ const baseUserSchema = Joi.object({
 		})
 		.required(),
 
-	repeat_password: Joi.ref('password'),
-}).with('password', 'repeat_password');
+	repeatPassword: Joi.ref('password'),
+}).with('password', 'repeatPassword');
 
 const updateUserSchema = baseUserSchema
-	.fork(Object.keys(baseUserSchema.describe().keys), (schema) => schema.optional())
+	.fork(Object.keys(baseUserSchema.describe().keys ?? {}), (schema) => schema.optional())
 	.min(1)
 	.message(
 		`Must have at least one of the following keys: ${Object.keys(

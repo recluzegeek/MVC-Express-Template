@@ -8,8 +8,22 @@ import { sequelize } from '../../../config/db.js';
 // Bar.belongsTo(Foo) // one-to-one relation: with foreign key stored in Bar (source)
 // Habit.belongsTo(User)  // one-to-one relation: with foreign key stored in Habit (user_id - foreign key)
 
-const frequencyEnum = ['Daily', 'Weekly', 'Monthly', 'BiWeekly'];
-const statusEnum = ['Pending', 'In Progress', 'Done'];
+// const-assetion: https://stackoverflow.com/a/66993654
+export const FrequencyEnum = {
+	daily: 'Daily',
+	weekly: 'Weekly',
+	monthly: 'Monthly',
+	biWeekly: 'BiWeekly',
+} as const;
+
+export const StatusEnum = {
+	pending: 'Pending',
+	inProgress: 'In Progress',
+	done: 'Done',
+} as const;
+
+export type FrequencyEnum = (typeof FrequencyEnum)[keyof typeof FrequencyEnum];
+export type StatusEnum = (typeof StatusEnum)[keyof typeof StatusEnum];
 
 const Habit = sequelize.define(
 	'Habit',
@@ -40,25 +54,26 @@ const Habit = sequelize.define(
 			},
 		},
 		status: {
-			type: DataTypes.ENUM(statusEnum),
+			type: DataTypes.ENUM(...Object.values(StatusEnum)),
 			defaultValue: 'Pending',
 			validate: {
 				isIn: {
-					args: [statusEnum],
-					msg: `Status must be one of: ${[...statusEnum]}`,
+					// sequelize expects an array of arrays, and not just an arrays of string
+					args: [[...Object.values(StatusEnum)]],
+					msg: `Status must be one of: ${Object.values(StatusEnum).join(', ')}`,
 				},
 			},
 		},
 		frequency: {
-			type: DataTypes.ENUM(frequencyEnum),
+			type: DataTypes.ENUM(...Object.values(FrequencyEnum)),
 			validate: {
 				isIn: {
-					args: [frequencyEnum],
-					msg: `Frequency must be one of: ${[...frequencyEnum]}`,
+					args: [[...Object.values(FrequencyEnum)]],
+					msg: `Frequency must be one of: ${[Object.values(FrequencyEnum).join(', ')]}`,
 				},
 			},
 		},
-		user_id: {
+		userId: {
 			type: DataTypes.UUID,
 			allowNull: false,
 			references: {
@@ -69,7 +84,7 @@ const Habit = sequelize.define(
 			onUpdate: 'CASCADE',
 		},
 
-		category_id: {
+		categoryId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			references: {
@@ -86,4 +101,4 @@ const Habit = sequelize.define(
 	},
 );
 
-export default Habit;
+export { Habit };
