@@ -13,4 +13,4 @@ userRouter.get('/', userController.getAll);
 userRouter.get('/habits/:id', userController.getHabits);
 userRouter.put('/update/:id', validationMiddleware(updateUserSchema), userController.update);
 
-export default userRouter;
+export { userRouter };

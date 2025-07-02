@@ -12,4 +12,4 @@ habitRouter.get('/', habitController.getAll);
 habitRouter.post('/create', validationMiddleware(createHabitSchema), habitController.create);
 habitRouter.put('/update/:id', validationMiddleware(updateHabitSchema), habitController.update);
 
-export default habitRouter;
+export { habitRouter };

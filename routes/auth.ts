@@ -1,5 +1,3 @@
-/* eslint-disable global-require, func-names */
-
 import express from 'express';
 import authController from '../app/controllers/Api/AuthController.js';
 import { attachUser } from '../app/middleware/auth/AttachUser.js';
@@ -20,8 +18,4 @@ authRouter.post('/refresh_token', [validateRefreshToken, attachUser], authContro
 
 // forget-password
 // verify-email
-
-export default function (app) {
-	// Routes prefix
-	app.use('/api/auth', authRouter);
-}
+export { authRouter };

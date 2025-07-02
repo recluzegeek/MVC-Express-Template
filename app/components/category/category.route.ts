@@ -15,4 +15,4 @@ categoryRouter.post(
 	categoryController.create,
 );
 
-export default categoryRouter;
+export { categoryRouter };
