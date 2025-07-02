@@ -1,7 +1,8 @@
 import type { NextFunction, Request, Response } from 'express';
-import type { User } from '../../models/index.js';
+import { User } from '../../models/index.js';
 import { checkExistenceById } from '../../utils/DBUtils.js';
 import { successResponse } from '../../utils/ResponseHandler.js';
+import type { UserUpdateDto } from './user.dto.ts';
 import userService from './user.service.js';
 
 // TODO: while updating records, having unique constraint, make sure to ignore itself while
@@ -29,9 +30,9 @@ async function create(req: Request, res: Response, next: NextFunction): Promise<
 async function update(req: Request, res: Response, next: NextFunction): Promise<void> {
 	try {
 		const { id } = req.params;
-		const updateData = req.body;
+		const updateData: UserUpdateDto = req.body;
 
-		const user: User = await checkExistenceById(id, 'User');
+		const user: User = await checkExistenceById(id, User, 'User');
 		await userService.updateUser(user, updateData);
 		successResponse(res, {}, 'User updated successfully!');
 	} catch (err) {

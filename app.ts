@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname(), 'public')));
 app.use(httpLogger);
 
-import { apiRoute } from './routes/api.js';
+import { apiRoute } from './routes/api.ts';
 import { webRoute } from './routes/web.ts';
 
 // bootstrap routes
@@ -51,7 +51,8 @@ app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
 	res.locals.error = config.isDev ? err : {}; // eslint-disable-line no-param-reassign
 	// render the error page
 	res.status(err.statusCode || 500);
-	res.render('error');
+	// res.render('error');
+	res.json('{ error: err }');
 });
 
 try {

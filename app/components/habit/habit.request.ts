@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { FrequencyEnumValues, StatusEnumValues } from './habit.model';
+import { FrequencyEnumValues, StatusEnumValues } from './habit.model.ts';
 
 const baseHabitSchema = Joi.object({
 	name: Joi.string().min(3).max(30).trim().required().messages({

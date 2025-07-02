@@ -1,5 +1,6 @@
 import { Category, Habit, User } from '../../models/index.js';
-import sanitizePayload from '../../utils/DataCleansing.js';
+import { sanitizePayload } from '../../utils/DataCleansing.js';
+import type { UserUpdateDto } from './user.dto.ts';
 
 // TODO: replace sequelize methods with magic methods where ever possible
 
@@ -35,7 +36,7 @@ async function createUser(name: string, username: string, password: string, emai
 	return data;
 }
 
-async function updateUser(user: User, updateData) {
+async function updateUser(user: User, updateData: UserUpdateDto) {
 	const data = sanitizePayload(updateData);
 
 	await user.update(data);

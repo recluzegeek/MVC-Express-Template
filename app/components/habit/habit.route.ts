@@ -1,6 +1,6 @@
 import express from 'express';
 import { requireAuthenticatedUser } from '../../middleware/auth/RequireAuthenticatedUser.js';
-import validationMiddleware from '../../middleware/ValidationMiddleware.js';
+import { validationMiddleware } from '../../middleware/ValidationMiddleware.js';
 import habitController from './habit.controller.js';
 import { createHabitSchema, updateHabitSchema } from './habit.request.js';
 

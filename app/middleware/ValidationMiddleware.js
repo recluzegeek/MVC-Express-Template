@@ -17,4 +17,4 @@ const validationMiddleware = (schema) => {
 	};
 };
 
-export default validationMiddleware;
+export { validationMiddleware };

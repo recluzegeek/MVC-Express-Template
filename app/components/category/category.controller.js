@@ -1,5 +1,5 @@
 import { successResponse } from '../../utils/ResponseHandler.js';
-import Category from './category.model.js';
+import { Category } from './category.model.js';
 
 async function getAll(_req, res, next) {
 	// fetch all categories for admin
@@ -23,4 +23,5 @@ async function create(req, res, next) {
 	}
 }
 
+// biome-ignore lint/style/noDefaultExport: more readable
 export default { getAll, create };
