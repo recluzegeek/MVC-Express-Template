@@ -1,8 +1,10 @@
 import { Category, Habit, User } from '../../models/index.js';
 import sanitizePayload from '../../utils/DataCleansing.js';
 
-async function getAllUsers() {
-	const data = await User.findAll({
+// TODO: replace sequelize methods with magic methods where ever possible
+
+async function getAllUsers(): Promise<User[]> {
+	const data: User[] = await User.findAll({
 		attributes: { exclude: [] },
 		include: {
 			model: Habit,
@@ -14,7 +16,7 @@ async function getAllUsers() {
 	return data;
 }
 
-async function getUserHabits(user) {
+async function getUserHabits(user: User) {
 	const habits = await user.getHabits({
 		attributes: { exclude: ['id', 'user_id'] },
 		include: {
@@ -28,16 +30,17 @@ async function getUserHabits(user) {
 	return habits;
 }
 
-async function createUser(name, username, password, email) {
+async function createUser(name: string, username: string, password: string, email: string) {
 	const data = await User.create({ name, username, email, password });
 	return data;
 }
 
-async function updateUser(user, updateData) {
+async function updateUser(user: User, updateData) {
 	const data = sanitizePayload(updateData);
 
 	await user.update(data);
 	await user.save();
 }
 
+// biome-ignore lint/style/noDefaultExport: more readable
 export default { getAllUsers, createUser, updateUser, getUserHabits };

@@ -2,11 +2,13 @@ import { hash } from 'bcrypt';
 import {
 	type CreationOptional,
 	DataTypes,
+	type HasOneGetAssociationMixin,
 	type InferAttributes,
 	type InferCreationAttributes,
 	Model,
 } from 'sequelize';
 import { sequelize } from '../../../config/db.js';
+import type { Habit } from '../habit/habit.model.js';
 
 // Inspired and taken from: https://sequelize.org/docs/v6/other-topics/typescript/#usage
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
@@ -18,6 +20,9 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 	// createdAt & updatedAt can be undefined during creation
 	declare createdAt: CreationOptional<Date>;
 	declare updatedAt: CreationOptional<Date>;
+	// https://stackoverflow.com/questions/78266493/sequelize-typescript-no-association-methods#comment138391068_78266493
+	// https://sequelize.org/docs/v6/other-topics/typescript/#usage
+	declare getHabits: HasOneGetAssociationMixin<Habit>;
 }
 
 User.init(
