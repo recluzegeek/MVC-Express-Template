@@ -1,7 +1,6 @@
 import Joi from 'joi';
 
-const frequencyEnum = ['Daily', 'Weekly', 'Monthly', 'BiWeekly'];
-const statusEnum = ['Pending', 'In Progress', 'Done'];
+import { FrequencyEnumValues, StatusEnumValues } from './habit.model';
 
 const baseHabitSchema = Joi.object({
 	name: Joi.string().min(3).max(30).trim().required().messages({
@@ -21,10 +20,10 @@ const baseHabitSchema = Joi.object({
 	}),
 
 	frequency: Joi.string()
-		.valid(...frequencyEnum)
+		.valid(...FrequencyEnumValues)
 		.required()
 		.messages({
-			'any.only': `Frequency must be one of [${frequencyEnum.join(', ')}]`,
+			'any.only': `Frequency must be one of [${FrequencyEnumValues.join(', ')}]`,
 			'any.required': 'Frequency is required',
 		}),
 
@@ -42,10 +41,10 @@ const baseHabitSchema = Joi.object({
 	}),
 
 	status: Joi.string()
-		.valid(...statusEnum)
+		.valid(...StatusEnumValues)
 		.required()
 		.messages({
-			'any.only': `Status must be one of [${statusEnum.join(', ')}]`,
+			'any.only': `Status must be one of [${StatusEnumValues.join(', ')}]`,
 			'any.required': 'Status is required',
 		}),
 });

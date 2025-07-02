@@ -1,8 +1,22 @@
-import { DataTypes } from 'sequelize';
+import {
+	type CreationOptional,
+	DataTypes,
+	type InferAttributes,
+	type InferCreationAttributes,
+	Model,
+} from 'sequelize';
 import { sequelize } from '../../../config/db.js';
 
-const Category = sequelize.define(
-	'Category',
+class Category extends Model<InferAttributes<Category>, InferCreationAttributes<Category>> {
+	declare id: CreationOptional<number>;
+	declare name: string;
+	declare description: string;
+	// createdAt & updatedAt can be undefined during creation
+	declare createdAt: CreationOptional<Date>;
+	declare updatedAt: CreationOptional<Date>;
+}
+
+Category.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -29,10 +43,13 @@ const Category = sequelize.define(
 				},
 			},
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
 	},
 	{
 		tableName: 'categories',
 		timestamps: true,
+		sequelize,
 	},
 );
 

@@ -7,6 +7,7 @@ ts_build/
 
 habbits-db
 habits-db
+.VSCodeCounter/
 
 # Windows
 Thumbs.db

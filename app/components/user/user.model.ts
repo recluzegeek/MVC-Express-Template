@@ -1,9 +1,26 @@
-import { DataTypes } from 'sequelize';
+import { hash } from 'bcrypt';
+import {
+	type CreationOptional,
+	DataTypes,
+	type InferAttributes,
+	type InferCreationAttributes,
+	Model,
+} from 'sequelize';
 import { sequelize } from '../../../config/db.js';
 
-// TODO: hash password before storing
-const User = sequelize.define(
-	'User',
+// Inspired and taken from: https://sequelize.org/docs/v6/other-topics/typescript/#usage
+class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+	declare id: CreationOptional<string>;
+	declare name: string;
+	declare email: string;
+	declare password: string;
+	declare username: string;
+	// createdAt & updatedAt can be undefined during creation
+	declare createdAt: CreationOptional<Date>;
+	declare updatedAt: CreationOptional<Date>;
+}
+
+User.init(
 	{
 		id: {
 			type: DataTypes.UUID,
@@ -55,15 +72,18 @@ const User = sequelize.define(
 				},
 			},
 		},
-		// storing JWT refreshTokens in DB, so they could be revoked for logout purposes, and others which i was unable to comprehend
-		// refreshToken: {
-		//   type: DataTypes.STRING(),
-		// },
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
 	},
 	{
+		hooks: {
+			beforeCreate: async (user, _options) => {
+				user.password = await hash(user.password, 10);
+			},
+		},
 		tableName: 'users',
 		timestamps: true,
-		underscored: true,
+		sequelize,
 	},
 );
 

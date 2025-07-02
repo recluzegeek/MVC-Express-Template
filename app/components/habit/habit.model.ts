@@ -1,4 +1,10 @@
-import { DataTypes } from 'sequelize';
+import {
+	type CreationOptional,
+	DataTypes,
+	type InferAttributes,
+	type InferCreationAttributes,
+	Model,
+} from 'sequelize';
 import { sequelize } from '../../../config/db.js';
 
 // sequelize or any ORM enforces validation at model level, not at application level
@@ -9,24 +15,39 @@ import { sequelize } from '../../../config/db.js';
 // Habit.belongsTo(User)  // one-to-one relation: with foreign key stored in Habit (user_id - foreign key)
 
 // const-assetion: https://stackoverflow.com/a/66993654
-export const FrequencyEnum = {
+const FrequencyEnum = {
 	daily: 'Daily',
 	weekly: 'Weekly',
 	monthly: 'Monthly',
 	biWeekly: 'BiWeekly',
 } as const;
 
-export const StatusEnum = {
+const StatusEnum = {
 	pending: 'Pending',
 	inProgress: 'In Progress',
 	done: 'Done',
 } as const;
 
-export type FrequencyEnum = (typeof FrequencyEnum)[keyof typeof FrequencyEnum];
-export type StatusEnum = (typeof StatusEnum)[keyof typeof StatusEnum];
+export const FrequencyEnumValues = Object.values(FrequencyEnum);
+export const StatusEnumValues = Object.values(StatusEnum);
 
-const Habit = sequelize.define(
-	'Habit',
+export type FrequencyEnumType = (typeof FrequencyEnumValues)[number];
+export type StatusEnumType = (typeof StatusEnumValues)[number];
+
+class Habit extends Model<InferAttributes<Habit>, InferCreationAttributes<Habit>> {
+	declare id: CreationOptional<number>;
+	declare name: string;
+	declare description: string;
+	declare categoryId: string;
+	declare userId: string;
+	declare frequency: string;
+	declare status: string;
+	// createdAt & updatedAt can be undefined during creation
+	declare createdAt: CreationOptional<Date>;
+	declare updatedAt: CreationOptional<Date>;
+}
+
+Habit.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -54,22 +75,22 @@ const Habit = sequelize.define(
 			},
 		},
 		status: {
-			type: DataTypes.ENUM(...Object.values(StatusEnum)),
+			type: DataTypes.ENUM(...StatusEnumValues),
 			defaultValue: 'Pending',
 			validate: {
 				isIn: {
 					// sequelize expects an array of arrays, and not just an arrays of string
-					args: [[...Object.values(StatusEnum)]],
-					msg: `Status must be one of: ${Object.values(StatusEnum).join(', ')}`,
+					args: [[...StatusEnumValues]],
+					msg: `Status must be one of: ${StatusEnumValues.join(', ')}`,
 				},
 			},
 		},
 		frequency: {
-			type: DataTypes.ENUM(...Object.values(FrequencyEnum)),
+			type: DataTypes.ENUM(...FrequencyEnumValues),
 			validate: {
 				isIn: {
-					args: [[...Object.values(FrequencyEnum)]],
-					msg: `Frequency must be one of: ${[Object.values(FrequencyEnum).join(', ')]}`,
+					args: [[...FrequencyEnumValues]],
+					msg: `Frequency must be one of: ${FrequencyEnumValues.join(', ')}`,
 				},
 			},
 		},
@@ -83,7 +104,6 @@ const Habit = sequelize.define(
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		},
-
 		categoryId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
@@ -94,10 +114,13 @@ const Habit = sequelize.define(
 			onUpdate: 'CASCADE',
 			onDelete: 'SET NULL',
 		},
+		createdAt: DataTypes.DATE,
+		updatedAt: DataTypes.DATE,
 	},
 	{
 		tableName: 'habits',
 		timestamps: true,
+		sequelize,
 	},
 );
 
