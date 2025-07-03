@@ -1,6 +1,7 @@
+import type { NextFunction, Request, Response } from 'express';
 import logger from '../utils/Logger.js';
 
-export const httpLogger = (req, res, next) => {
+export const httpLogger = (req: Request, res: Response, next: NextFunction) => {
 	const start = process.hrtime.bigint();
 
 	// ---- Log Incoming Request ----
@@ -20,9 +21,7 @@ export const httpLogger = (req, res, next) => {
 		timestamp: new Date().toISOString(),
 	};
 
-	logger.info(
-		`Incoming Request: ${req.method} ${req.originalUrl} ${JSON.stringify(requestMeta, null, 2)}`,
-	);
+	logger.info(`Incoming Request: ${req.method} ${req.originalUrl} ${JSON.stringify(requestMeta, null, 2)}`);
 
 	// ---- Log Outgoing Response ----
 
@@ -37,7 +36,15 @@ export const httpLogger = (req, res, next) => {
 			contentLength: res.getHeader('content-length') || 0,
 		};
 
-		const level = res.statusCode >= 500 ? 'error' : res.statusCode >= 400 ? 'warn' : 'http';
+		// const level = res.statusCode >= 500 ? 'error' : res.statusCode >= 400 ? 'warn' : 'http';
+		let level: string;
+		if (res.statusCode >= 500) {
+			level = 'error';
+		} else if (res.statusCode >= 400) {
+			level = 'warn';
+		} else {
+			level = 'http';
+		}
 
 		const logMessage = `Outgoing Response: ${req.method} ${req.originalUrl} ${res.statusCode} - ${durationMs} ms`;
 		logger.log(level, `${logMessage}, ${JSON.stringify(responseMeta, null, 2)}`);
