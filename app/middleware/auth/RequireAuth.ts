@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { ValidationError } from '../../utils/errors/ValidationError.js';
+import { ValidationError } from '../../utils/errors/ValidationError.ts';
 
 export function requireAuthHeader(req: Request, _res: Response, next: NextFunction): void {
 	const authorization = req.headers.authorization;

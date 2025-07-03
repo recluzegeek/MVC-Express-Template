@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { ValidationError } from '../../utils/errors/ValidationError.js';
+import { ValidationError } from '../../utils/errors/ValidationError.ts';
 import { verifyToken } from '../../utils/JWTTokens.ts';
 
 export function validateRefreshToken(req: Request, _res: Response, next: NextFunction): void {

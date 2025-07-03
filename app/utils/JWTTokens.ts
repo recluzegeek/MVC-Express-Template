@@ -7,13 +7,14 @@ CommonJS modules can always be imported via the default export, for example usin
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 */
-import pkg, { type JwtPayload, verify } from 'jsonwebtoken';
-import { ValidationError } from './errors/ValidationError.js';
+/** biome-ignore-all lint/style/noProcessEnv: will configure it later on */
+import pkg, { type JwtPayload } from 'jsonwebtoken';
+import { ValidationError } from './errors/ValidationError.ts';
 
-const { sign } = pkg;
+const { sign, verify } = pkg;
 
 import type { Response } from 'express';
-import { successResponse } from './ResponseHandler.js';
+import { successResponse } from './ResponseHandler.ts';
 
 function createAccessToken(id: string): string {
 	return sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
@@ -41,7 +42,7 @@ function sendRefreshToken(res: Response, refreshToken: string): void {
 function verifyToken(token: string, secret: string, errorMessage: string): JwtPayload {
 	const payload = verify(token, secret) as JwtPayload;
 	if (!payload?.id) {
-		throw new ValidationError([errorMessage], 401);
+		throw new ValidationError([errorMessage]);
 	}
 	return payload;
 }

@@ -1,15 +1,15 @@
 import { compare } from 'bcrypt';
 import type { NextFunction, Request, Response } from 'express';
 import type { User } from '../../models/index.ts';
-import { checkExistenceByEmail } from '../../utils/DBUtils.js';
-import { InvalidCredentialsError } from '../../utils/errors/DatabaseError.js';
+import { checkExistenceByEmail } from '../../utils/DBUtils.ts';
+import { InvalidCredentialsError } from '../../utils/errors/DatabaseError.ts';
 import {
 	createAccessToken,
 	createRefreshToken,
 	sendAcessToken,
 	sendRefreshToken,
-} from '../../utils/JWTTokens.js';
-import { successResponse } from '../../utils/ResponseHandler.js';
+} from '../../utils/JWTTokens.ts';
+import { successResponse } from '../../utils/ResponseHandler.ts';
 
 // login
 async function signin(req: Request, res: Response, next: NextFunction): Promise<void> {

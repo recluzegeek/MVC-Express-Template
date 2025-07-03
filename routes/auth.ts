@@ -1,8 +1,8 @@
 import express from 'express';
-import authController from '../app/controllers/Api/AuthController.js';
-import { attachUser } from '../app/middleware/auth/AttachUser.js';
-import { requireAuthHeader } from '../app/middleware/auth/RequireAuth.js';
-import { validateRefreshToken } from '../app/middleware/auth/ValidateRefreshToken.js';
+import authController from '../app/controllers/Api/AuthController.ts';
+import { attachUser } from '../app/middleware/auth/AttachUser.ts';
+import { requireAuthHeader } from '../app/middleware/auth/RequireAuth.ts';
+import { validateRefreshToken } from '../app/middleware/auth/ValidateRefreshToken.ts';
 
 const authRouter = express.Router();
 

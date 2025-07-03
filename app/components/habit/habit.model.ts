@@ -5,7 +5,7 @@ import {
 	type InferCreationAttributes,
 	Model,
 } from 'sequelize';
-import { sequelize } from '../../../config/db.js';
+import { sequelize } from '../../../config/db.ts';
 
 // sequelize or any ORM enforces validation at model level, not at application level
 // (before request hit the db). We  need to use a dedicated validator like joi,
@@ -38,7 +38,7 @@ class Habit extends Model<InferAttributes<Habit>, InferCreationAttributes<Habit>
 	declare id: CreationOptional<number>;
 	declare name: string;
 	declare description: string;
-	declare categoryId: string;
+	declare categoryId: number;
 	declare userId: string;
 	declare frequency: string;
 	declare status: string;

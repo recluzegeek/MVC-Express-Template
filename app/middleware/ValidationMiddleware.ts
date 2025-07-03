@@ -4,7 +4,7 @@
 
 import type { NextFunction, Request, RequestHandler, Response } from 'express';
 import type { ObjectSchema } from 'joi';
-import { ValidationError } from '../utils/errors/ValidationError.js';
+import { ValidationError } from '../utils/errors/ValidationError.ts';
 
 const validationMiddleware = (schema: ObjectSchema): RequestHandler => {
 	return (req: Request, _res: Response, next: NextFunction): void => {

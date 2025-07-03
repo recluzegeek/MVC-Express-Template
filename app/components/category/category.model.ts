@@ -5,7 +5,7 @@ import {
 	type InferCreationAttributes,
 	Model,
 } from 'sequelize';
-import { sequelize } from '../../../config/db.js';
+import { sequelize } from '../../../config/db.ts';
 
 class Category extends Model<InferAttributes<Category>, InferCreationAttributes<Category>> {
 	declare id: CreationOptional<number>;

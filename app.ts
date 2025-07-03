@@ -3,20 +3,20 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express, { type NextFunction, type Request, type Response } from 'express';
-import { AppError } from './app/utils/errors/AppError.js';
+import { AppError } from './app/utils/errors/AppError.ts';
 
 dotenv.config();
 const app = express();
 
-import { errorMiddleware } from './app/middleware/ErrorHandlerMiddleware.js';
-import { httpLogger } from './app/middleware/HttpLoggerMiddleware.js';
+import { errorMiddleware } from './app/middleware/ErrorHandlerMiddleware.ts';
+import { httpLogger } from './app/middleware/HttpLoggerMiddleware.ts';
 
 //logger config
-import logger from './app/utils/Logger.js';
+import { logger } from './app/utils/Logger.ts';
 // config
-import config from './config/config.js';
+import config from './config/config.ts';
 // database config
-import { connectToDB } from './config/db.js';
+import { connectToDb } from './config/db.ts';
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,7 +40,7 @@ process.on('uncaughtException', (err) => {
 
 // catch 404 and forward to error handler
 app.use((_req: Request, _res: Response, next: NextFunction) => {
-	const err = new AppError('Not Found', 404);
+	const err = new AppError('Not Found', 404, ['Resource does not exists.']);
 	next(err);
 });
 
@@ -52,13 +52,13 @@ app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
 	// render the error page
 	res.status(err.statusCode || 500);
 	// res.render('error');
-	res.json('{ error: err }');
+	res.json({ status: err.status, message: err.message, errors: err.errors });
 });
 
 try {
 	// await sequelize.sync({ alter: true });
 	app.listen(config.server.port, config.server.hostname, () => {
-		async () => await connectToDB();
+		async () => await connectToDb();
 		logger.info(`Server running on: www.${config.server.hostname}:${config.server.port}`);
 		logger.info(`App listening on ${config.server.hostname} port: ${config.server.port}`);
 		app.emit('appStarted');

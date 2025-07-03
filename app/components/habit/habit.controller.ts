@@ -1,11 +1,11 @@
 import type { NextFunction, Request, Response } from 'express';
-import { Category, Habit, User } from '../../models/index.js';
-import { sanitizePayload } from '../../utils/DataCleansing.js';
-import { checkExistenceById } from '../../utils/DBUtils.js';
-import { OwnershipError } from '../../utils/errors/DatabaseError.js';
-import { successResponse } from '../../utils/ResponseHandler.js';
+import { Category, Habit, User } from '../../models/index.ts';
+import { sanitizePayload } from '../../utils/DataCleansing.ts';
+import { checkExistenceById } from '../../utils/DBUtils.ts';
+import { OwnershipError } from '../../utils/errors/ValidationError.ts';
+import { successResponse } from '../../utils/ResponseHandler.ts';
 import type { HabitUpdateDto } from './habit.dto.ts';
-import habitService from './habit.service.js';
+import habitService from './habit.service.ts';
 
 async function getAll(_req: Request, res: Response, next: NextFunction): Promise<void> {
 	// fetch all habits for admin

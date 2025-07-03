@@ -1,6 +1,6 @@
 import type { Model, ModelStatic } from 'sequelize';
 import { User } from '../models/index.ts';
-import { RecordNotFoundError } from './errors/DatabaseError.js';
+import { RecordNotFoundError } from './errors/DatabaseError.ts';
 
 export async function checkExistenceById<M extends Model>(
 	id: string | number,

@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noDefaultExport: would break changes */
 const env = process.env.NODE_ENV || 'development';
 const isAtlas = process.env.DB_ATLAS;
 

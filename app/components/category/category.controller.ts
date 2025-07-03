@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
-import { successResponse } from '../../utils/ResponseHandler.js';
-import { Category } from './category.model.js';
+import { successResponse } from '../../utils/ResponseHandler.ts';
+import { Category } from './category.model.ts';
 
 async function getAll(_req: Request, res: Response, next: NextFunction): Promise<void> {
 	// fetch all categories for admin

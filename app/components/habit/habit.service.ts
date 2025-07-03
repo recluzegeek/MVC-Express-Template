@@ -1,4 +1,4 @@
-import { Category, Habit } from '../../models/index.js';
+import { Category, Habit } from '../../models/index.ts';
 import type { HabitUpdateDto } from './habit.dto.ts';
 
 async function getAllHabits(): Promise<Habit[]> {
@@ -28,7 +28,7 @@ async function createHabit(
 	return data;
 }
 
-async function updateHabit(updateData: HabitUpdateDto, id: string) {
+async function updateHabit(updateData, id: string) {
 	await Habit.update(updateData, { where: { id } });
 }
 

@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import logger from '../utils/Logger.js';
+import { logger } from '../utils/Logger.ts';
 
 export const httpLogger = (req: Request, res: Response, next: NextFunction) => {
 	const start = process.hrtime.bigint();

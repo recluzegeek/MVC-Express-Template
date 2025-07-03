@@ -7,8 +7,8 @@ import {
 	type InferCreationAttributes,
 	Model,
 } from 'sequelize';
-import { sequelize } from '../../../config/db.js';
-import type { Habit } from '../habit/habit.model.js';
+import { sequelize } from '../../../config/db.ts';
+import type { Habit } from '../habit/habit.model.ts';
 
 // Inspired and taken from: https://sequelize.org/docs/v6/other-topics/typescript/#usage
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {

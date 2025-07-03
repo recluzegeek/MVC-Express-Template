@@ -1,9 +1,9 @@
 import type { NextFunction, Request, Response } from 'express';
-import { User } from '../../models/index.js';
-import { checkExistenceById } from '../../utils/DBUtils.js';
-import { successResponse } from '../../utils/ResponseHandler.js';
+import { User } from '../../models/index.ts';
+import { checkExistenceById } from '../../utils/DBUtils.ts';
+import { successResponse } from '../../utils/ResponseHandler.ts';
 import type { UserUpdateDto } from './user.dto.ts';
-import userService from './user.service.js';
+import userService from './user.service.ts';
 
 // TODO: while updating records, having unique constraint, make sure to ignore itself while
 // checking the unique constraint

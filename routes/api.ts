@@ -6,8 +6,8 @@ import { authRouter } from './auth.ts';
 
 // TODO: much of the code can be reused via the use of generics
 export function apiRoute(app: Application) {
-	app.use('/api', userRouter);
 	app.use('/api/auth', authRouter);
+	app.use('/api', userRouter);
 	app.use('/api/habits', habitRouter);
 	app.use('/api/categories', categoryRouter);
 }

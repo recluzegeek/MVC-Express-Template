@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 import { User } from '../../models/index.ts';
-import { checkExistenceById } from '../../utils/DBUtils.js';
-import { ValidationError } from '../../utils/errors/ValidationError.js';
+import { checkExistenceById } from '../../utils/DBUtils.ts';
+import { ValidationError } from '../../utils/errors/ValidationError.ts';
 
 // TODO: always ensure this middleware gets called before DecodeAccessToken middleware
 export async function attachUser(req: Request, _res: Response, next: NextFunction): Promise<void> {

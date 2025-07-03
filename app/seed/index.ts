@@ -1,22 +1,19 @@
 import { hash } from 'bcrypt';
-import { sequelize } from '../../config/db.js';
-import { Category, Habit, User } from '../models/index.js';
+import { sequelize } from '../../config/db.ts';
+import { Category, Habit, User } from '../models/index.ts';
 
 const hashedPassword = await Promise.all([hash('Password123!', 10), hash('Password123!', 10)]);
 
-const seed = async () => {
+const seed = async (): Promise<void> => {
 	const categoryEnum = ['Health', 'Tech', 'Social', 'Knowledge', 'Hobby', 'House Chores'];
 	try {
 		await sequelize.sync({ force: true });
-
-		console.log('📦 Database synced');
 
 		const categories = await Category.bulkCreate(
 			categoryEnum.map((name) => ({
 				name,
 			})),
 		);
-		console.log('📁 Categories seeded');
 
 		// Seed users
 		const users = await User.bulkCreate([
@@ -34,8 +31,6 @@ const seed = async () => {
 			},
 		]);
 
-		console.log('👤 Users seeded');
-
 		// Seed habits
 		await Habit.bulkCreate([
 			{
@@ -43,23 +38,21 @@ const seed = async () => {
 				description: 'Read at least 10 pages daily.',
 				status: 'Pending',
 				frequency: 'Daily',
-				user_id: users[0].id,
-				category_id: categories[4].id,
+				userId: users[0].id,
+				categoryId: categories[4].id,
 			},
 			{
 				name: 'Workout',
 				description: 'Go to gym 3 times a week.',
 				status: 'In Progress',
 				frequency: 'Weekly',
-				user_id: users[1].id,
-				category_id: categories[0].id,
+				userId: users[1].id,
+				categoryId: categories[0].id,
 			},
 		]);
 
-		console.log('📘 Habits seeded');
 		process.exit(0);
-	} catch (error) {
-		console.error('❌ Failed to seed DB:', error);
+	} catch (_error) {
 		process.exit(1);
 	}
 };

@@ -1,24 +1,20 @@
+/** biome-ignore-all lint/style/noProcessEnv: TODO: for later */
 import dotenv from 'dotenv';
-import { Sequelize } from 'sequelize';
-import logger from '../app/utils/Logger.js';
+import { type Dialect, Sequelize } from 'sequelize';
+import { logger } from '../app/utils/Logger.ts';
 
 // const debug = Debug('myapp:db');
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-	process.env.DB_NAME,
-	process.env.DB_USERNAME,
-	process.env.DB_PASSWORD,
-	{
-		host: process.env.DB_HOST,
-		dialect: process.env.DB_DIALECT,
-		storage: './habits-db',
-		logging: (msg) => logger.verbose(msg),
-	},
-);
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+	host: process.env.DB_HOST,
+	dialect: process.env.DB_DIALECT as Dialect,
+	storage: './habits-db',
+	logging: (msg) => logger.verbose(msg),
+});
 
-const connectToDB = async () => {
+const connectToDb = async () => {
 	try {
 		await sequelize.authenticate();
 		logger.info('Connection has been established successfully!');
@@ -39,4 +35,4 @@ process.on('SIGINT', async () => {
 	}
 });
 
-export { sequelize, connectToDB };
+export { sequelize, connectToDb };

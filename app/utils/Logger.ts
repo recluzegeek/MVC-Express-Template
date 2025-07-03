@@ -15,9 +15,7 @@ const consoleFormat = combine(
 	errors({ stack: true }),
 	splat(),
 	printf(({ timestamp, level, message, stack }) => {
-		return stack
-			? `${timestamp} [${level}]: ${message} - ${stack}`
-			: `${timestamp} [${level}]: ${message}`;
+		return stack ? `${timestamp} [${level}]: ${message} - ${stack}` : `${timestamp} [${level}]: ${message}`;
 	}),
 );
 
@@ -27,9 +25,7 @@ const fileFormat = combine(
 	errors({ stack: true }),
 	splat(),
 	printf(({ timestamp, level, message, stack }) => {
-		return stack
-			? `${timestamp} [${level}]: ${message} - ${stack}`
-			: `${timestamp} [${level}]: ${message}`;
+		return stack ? `${timestamp} [${level}]: ${message} - ${stack}` : `${timestamp} [${level}]: ${message}`;
 	}),
 );
 
@@ -65,4 +61,4 @@ const logger = createLogger({
 	exitOnError: false,
 });
 
-export default logger;
+export { logger };

@@ -1,12 +1,11 @@
 import express from 'express';
-import { requireAuthenticatedUser } from '../../middleware/auth/RequireAuthenticatedUser.js';
-import { validationMiddleware } from '../../middleware/ValidationMiddleware.js';
-import habitController from './habit.controller.js';
-import { createHabitSchema, updateHabitSchema } from './habit.request.js';
+import { validationMiddleware } from '../../middleware/ValidationMiddleware.ts';
+import habitController from './habit.controller.ts';
+import { createHabitSchema, updateHabitSchema } from './habit.request.ts';
 
 const habitRouter = express.Router();
 
-habitRouter.use(requireAuthenticatedUser);
+// habitRouter.use(requireAuthenticatedUser);
 
 habitRouter.get('/', habitController.getAll);
 habitRouter.post('/create', validationMiddleware(createHabitSchema), habitController.create);

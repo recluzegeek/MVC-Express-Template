@@ -1,4 +1,4 @@
-import { ValidationError } from './errors/ValidationError.js';
+import { ValidationError } from './errors/ValidationError.ts';
 
 export function sanitizePayload(updateData) {
 	// Remove fields that are undefined to avoid overwriting with undefined
